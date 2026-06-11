@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTA VI Crime Tracker — Crime Is Down. Keep It That Way.</title>
+<meta name="description" content="Real crime data for 25 major U.S. cities, tracked GTA-style. Crime is down — keep it that way. Refund the police.">
+<meta property="og:title" content="GTA VI Crime Tracker — Crime Is Down. Keep It That Way.">
+<meta property="og:description" content="Real crime data. 25 cities. One countdown. Refund the police.">
+<meta property="og:image" content="https://keepcrimelow.com/assets/og_card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GTA VI Crime Tracker — Crime Is Down. Keep It That Way.">
+<meta name="twitter:image" content="https://keepcrimelow.com/assets/og_card.jpg">
+<meta property="og:url" content="https://keepcrimelow.com/">
+<link rel="canonical" href="https://keepcrimelow.com/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Inter:wght@400;500;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pricedown Bl';font-style:normal;font-weight:900;src:local('Pricedown Bl'),url('https://fonts.cdnfonts.com/s/4837/pricedown%20bl.woff') format('woff');font-display:swap;}
+:root{
+  --bg:#0a0812;--panel:#15101f;--panel2:#1c1430;--line:#2c2244;
+  --pink:#ff2ec8;--pink2:#ff5edb;--purple:#a06bff;--green:#41ff8b;--red:#ff4d5e;
+  --orange:#ffa53d;--teal:#2dd9c7;--blue:#4d9fff;--gold:#ffd24a;
+  --txt:#f4f0ff;--muted:#9a8fb8;--dim:#6e6390;
+  --disp:'Pricedown Bl','Anton','Barlow Condensed',sans-serif;
+  --cond:'Barlow Condensed',sans-serif;--body:'Inter',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:var(--body);overflow-x:hidden;
+  background-image:radial-gradient(1200px 600px at 80% -100px,rgba(255,46,200,.08),transparent 60%),radial-gradient(900px 500px at 10% 30%,rgba(160,107,255,.06),transparent 60%);}
+a{color:inherit}
+img{max-width:100%}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+.disp{font-family:var(--disp);letter-spacing:.5px}
+.eyebrow{font-family:var(--cond);font-weight:700;letter-spacing:3px;text-transform:uppercase;font-size:13px;color:var(--pink2)}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--cond);font-weight:800;letter-spacing:1.5px;text-transform:uppercase;font-size:15px;padding:13px 26px;border-radius:10px;border:2px solid transparent;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .15s,background .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-pink{background:linear-gradient(135deg,#ff2ec8,#b915ff);color:#fff;box-shadow:0 6px 24px rgba(255,46,200,.35)}
+.btn-pink:hover{box-shadow:0 10px 32px rgba(255,46,200,.5)}
+.btn-ghost{border-color:var(--pink);color:var(--pink2);background:rgba(255,46,200,.06)}
+.btn-ghost:hover{background:rgba(255,46,200,.14)}
+.btn-green{background:linear-gradient(135deg,#2bd874,#10b85b);color:#06130b;box-shadow:0 6px 24px rgba(65,255,139,.25)}
+/* ---------- NAV ---------- */
+nav{position:sticky;top:0;z-index:60;background:rgba(10,8,18,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.navin{display:flex;align-items:center;gap:28px;padding:12px 24px;max-width:1280px;margin:0 auto}
+.logo{display:flex;flex-direction:column;line-height:.85;text-decoration:none}
+.logo .l1{font-family:var(--disp);font-size:30px;background:linear-gradient(180deg,#ff7ae4,#ff2ec8 55%,#b915ff);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:0 0 24px rgba(255,46,200,.35)}
+.logo .l2{font-family:var(--cond);font-weight:800;font-size:11px;letter-spacing:4.5px;color:var(--txt);margin-top:3px}
+.navlinks{display:flex;gap:22px;margin-left:auto;align-items:center}
+.navlinks a.nl{font-family:var(--cond);font-weight:700;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .15s}
+.navlinks a.nl:hover{color:var(--pink2)}
+.btn-sm{padding:9px 16px;font-size:13px;border-radius:8px}
+@media(max-width:900px){.navlinks a.nl{display:none}}
+/* ---------- HERO ---------- */
+.hero{position:relative;min-height:640px;display:flex;align-items:center;border-bottom:1px solid var(--line);overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:url('assets/hero_web.jpg') center 30%/cover no-repeat}
+.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,8,18,.92) 0%,rgba(10,8,18,.55) 45%,rgba(10,8,18,.25) 70%),linear-gradient(0deg,rgba(10,8,18,.97) 4%,transparent 45%)}
+.heroin{position:relative;display:grid;grid-template-columns:1.25fr .9fr;gap:48px;align-items:center;padding:72px 24px;max-width:1200px;margin:0 auto;width:100%}
+.hero h1{font-family:var(--disp);font-size:clamp(44px,6.2vw,76px);line-height:.95;text-transform:uppercase}
+.hero h1 .a{color:#fff;text-shadow:0 4px 30px rgba(0,0,0,.6)}
+.hero h1 .b{display:block;background:linear-gradient(90deg,#ff7ae4,#ff2ec8 60%,#b915ff);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 26px rgba(255,46,200,.45))}
+.hero p.sub{margin:18px 0 26px;color:#d9d2ee;font-size:17px;line-height:1.6;max-width:520px}
+.hero p.sub b{color:#fff}
+.hbtns{display:flex;gap:14px;flex-wrap:wrap}
+/* national card */
+.natcard{background:linear-gradient(160deg,rgba(21,16,31,.94),rgba(28,20,48,.94));border:1px solid rgba(65,255,139,.35);border-radius:18px;padding:26px 26px 20px;box-shadow:0 20px 60px rgba(0,0,0,.55),0 0 40px rgba(65,255,139,.07);backdrop-filter:blur(6px)}
+.natcard .lbl{font-family:var(--cond);font-weight:800;letter-spacing:3px;font-size:13px;color:var(--muted);text-transform:uppercase}
+.natbig{font-family:var(--disp);font-size:64px;color:var(--green);line-height:1;margin:8px 0 2px;text-shadow:0 0 30px rgba(65,255,139,.4)}
+.natsub{font-family:var(--cond);font-weight:700;letter-spacing:1.5px;font-size:15px;color:#cfc6ea;text-transform:uppercase}
+.natbars{display:flex;gap:18px;align-items:flex-end;height:120px;margin:22px 6px 6px}
+.nb{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px}
+.nb .bar{width:100%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#41ff8b,#0d8f4b);box-shadow:0 0 18px rgba(65,255,139,.25)}
+.nb .v{font-family:var(--cond);font-weight:800;font-size:16px;color:var(--green)}
+.nb .y{font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:1px;color:var(--muted)}
+.natchips{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.chip{font-family:var(--cond);font-weight:700;letter-spacing:1px;font-size:13px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:#cfc6ea;text-transform:uppercase}
+.chip b{color:var(--green)}
+.natsrc{margin-top:14px;font-size:11.5px;color:var(--dim);line-height:1.5}
+.natsrc a{color:var(--dim)}
+@media(max-width:980px){.heroin{grid-template-columns:1fr;gap:36px}.hero-bg{background-position:65% 30%}}
+</style>
+<style>
+/* ---------- COUNTDOWN ---------- */
+.cdbar{background:linear-gradient(90deg,#1b0f2e,#2a1040 50%,#1b0f2e);border-bottom:1px solid var(--line)}
+.cdin{display:flex;align-items:center;justify-content:center;gap:26px;flex-wrap:wrap;padding:16px 24px}
+.cdlbl{font-family:var(--disp);font-size:22px;color:#fff;letter-spacing:1px}
+.cdlbl span{color:var(--pink2)}
+.cdclock{display:flex;gap:10px}
+.cdc{background:rgba(0,0,0,.45);border:1px solid var(--line);border-radius:10px;padding:8px 12px;min-width:64px;text-align:center}
+.cdc b{display:block;font-family:var(--cond);font-weight:800;font-size:24px;color:var(--green)}
+.cdc i{font-style:normal;font-family:var(--cond);font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.cdtag{font-family:var(--cond);font-weight:700;letter-spacing:2px;font-size:13px;color:var(--muted);text-transform:uppercase}
+/* ---------- TICKER ---------- */
+.ticker{border-bottom:1px solid var(--line);background:rgba(255,46,200,.04);overflow:hidden;white-space:nowrap}
+.tickin{display:inline-flex;gap:0;animation:tk 70s linear infinite;padding:11px 0}
+.tk{display:inline-flex;align-items:center;gap:10px;font-family:var(--cond);font-weight:700;letter-spacing:1.2px;font-size:14px;color:#e9defa;text-transform:uppercase;padding:0 34px;border-right:1px solid var(--line)}
+.tk .dot{color:var(--pink)}
+@keyframes tk{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+/* ---------- SECTIONS ---------- */
+section{padding:84px 0}
+.shead{display:flex;align-items:end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:14px}
+.shead h2{font-family:var(--disp);font-size:clamp(30px,4vw,46px);text-transform:uppercase;line-height:1}
+.shead h2 em{font-style:normal;color:var(--pink2)}
+.shead .sub{color:var(--muted);font-size:15px;margin-top:8px;max-width:640px;line-height:1.6}
+.sel{font-family:var(--cond);font-weight:700;letter-spacing:1px;font-size:14px;text-transform:uppercase;background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:10px;padding:11px 14px;cursor:pointer}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 26px}
+.lg{font-family:var(--cond);font-weight:700;font-size:11.5px;letter-spacing:1.5px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted);text-transform:uppercase}
+.lg i{font-style:normal;margin-right:5px}
+/* ---------- CITY GRID ---------- */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:22px}
+.card{background:linear-gradient(170deg,var(--panel),#120d1d);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s;display:flex;flex-direction:column}
+.card:hover{transform:translateY(-4px);border-color:rgba(255,46,200,.45);box-shadow:0 18px 44px rgba(0,0,0,.5)}
+.sky{position:relative;height:118px;display:block}
+.sky svg{position:absolute;inset:0;width:100%;height:100%}
+.cbody{padding:16px 18px 18px;display:flex;flex-direction:column;gap:11px;flex:1}
+.crow1{display:flex;justify-content:space-between;align-items:start;gap:10px}
+.cname{font-family:var(--disp);font-size:23px;text-transform:uppercase;line-height:1}
+.cstate{font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:2px;color:var(--muted)}
+.cpct{font-family:var(--disp);font-size:34px;line-height:.9;text-align:right}
+.down{color:var(--green);text-shadow:0 0 18px rgba(65,255,139,.35)}
+.up{color:var(--red);text-shadow:0 0 18px rgba(255,77,94,.3)}
+.flat{color:var(--dim)}
+.cmetric{font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:.6px;color:var(--muted);text-transform:uppercase}
+.bars{display:flex;flex-direction:column;gap:6px}
+.brow{display:grid;grid-template-columns:44px 1fr 64px;gap:8px;align-items:center}
+.brow .yl{font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:1px;color:var(--dim)}
+.brow .tr{height:10px;border-radius:6px;background:rgba(255,255,255,.05);overflow:hidden}
+.brow .fl{height:100%;border-radius:6px}
+.brow .ct{font-family:var(--cond);font-weight:700;font-size:13px;color:#cfc6ea;text-align:right}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.mchip{font-family:var(--cond);font-weight:700;font-size:11.5px;letter-spacing:1px;padding:4px 9px;border-radius:999px;text-transform:uppercase;border:1px solid}
+.mdown{color:var(--green);border-color:rgba(65,255,139,.35);background:rgba(65,255,139,.06)}
+.mup{color:var(--red);border-color:rgba(255,77,94,.35);background:rgba(255,77,94,.06)}
+.mgrey{color:var(--muted);border-color:var(--line);background:rgba(255,255,255,.03)}
+.cnote{font-size:12px;color:var(--dim);line-height:1.5}
+.cfoot{margin-top:auto;display:flex;flex-direction:column;gap:10px}
+.csrc{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;color:var(--dim)}
+.csrc a{color:var(--dim)}
+.csrc a:hover{color:var(--pink2)}
+.cbtn{display:flex;justify-content:center;align-items:center;gap:8px;font-family:var(--cond);font-weight:800;letter-spacing:1.5px;font-size:14px;text-transform:uppercase;text-decoration:none;color:#fff;background:linear-gradient(135deg,#ff2ec8,#b915ff);padding:12px;border-radius:10px;border:none;cursor:pointer;transition:filter .15s,transform .15s}
+.cbtn:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.cbtn.off{background:#241b38;color:var(--muted);border:1px dashed var(--line)}
+.badge{font-family:var(--cond);font-weight:800;font-size:10.5px;letter-spacing:1.5px;padding:3px 9px;border-radius:999px;text-transform:uppercase}
+.bg-live{background:rgba(65,255,139,.12);color:var(--green);border:1px solid rgba(65,255,139,.4)}
+.bg-live i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);margin-right:5px;animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.bg-ytd{background:rgba(77,159,255,.12);color:var(--blue);border:1px solid rgba(77,159,255,.4)}
+.bg-q1{background:rgba(255,165,61,.12);color:var(--orange);border:1px solid rgba(255,165,61,.4)}
+.bg-fy{background:rgba(160,107,255,.12);color:var(--purple);border:1px solid rgba(160,107,255,.4)}
+.bg-lim{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--line)}
+.gridfoot{text-align:center;font-family:var(--cond);font-weight:700;letter-spacing:2.5px;font-size:14px;color:var(--muted);text-transform:uppercase;margin-top:34px}
+.gridfoot em{font-style:normal;color:var(--green)}
+</style>
+<style>
+/* ---------- METER ---------- */
+#meter{background:linear-gradient(180deg,rgba(65,255,139,.04),transparent 60%);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meterbox{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:stretch}
+.mtotal{background:linear-gradient(165deg,var(--panel2),#101822);border:1px solid rgba(65,255,139,.4);border-radius:18px;padding:34px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 0 50px rgba(65,255,139,.08)}
+.mtotal .big{font-family:var(--disp);font-size:clamp(54px,7vw,86px);color:var(--green);line-height:.95;text-shadow:0 0 36px rgba(65,255,139,.45)}
+.mtotal .cap{font-family:var(--cond);font-weight:800;letter-spacing:3px;font-size:15px;color:#cfc6ea;text-transform:uppercase;margin-top:10px}
+.mstats{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap}
+.ms{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:12px;padding:12px 18px;min-width:120px}
+.ms b{display:block;font-family:var(--cond);font-weight:800;font-size:26px;color:#fff}
+.ms i{font-style:normal;font-family:var(--cond);font-size:11px;letter-spacing:1.6px;color:var(--muted);text-transform:uppercase}
+.mnote{font-size:12px;color:var(--dim);margin-top:18px;line-height:1.6}
+.lboard{background:linear-gradient(165deg,var(--panel),#160f24);border:1px solid var(--line);border-radius:18px;padding:26px}
+.lboard h3{font-family:var(--disp);font-size:24px;text-transform:uppercase;margin-bottom:4px}
+.lboard .s{font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:16px}
+.lrow{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px dashed var(--line)}
+.lrow:last-child{border-bottom:none}
+.lrow .rk{font-family:var(--disp);font-size:20px;color:var(--gold);width:30px}
+.lrow .cn{font-family:var(--cond);font-weight:700;font-size:16px;letter-spacing:.5px;flex:1;text-transform:uppercase}
+.lrow .cl{font-family:var(--cond);font-weight:800;font-size:15px;color:var(--pink2)}
+.lempty{color:var(--dim);font-size:13.5px;line-height:1.7;padding:14px 4px}
+@media(max-width:900px){.meterbox{grid-template-columns:1fr}}
+/* ---------- DONATE ---------- */
+#refund{background:radial-gradient(900px 400px at 85% 20%,rgba(255,46,200,.07),transparent 60%)}
+.dongrid{display:grid;grid-template-columns:1.05fr .95fr;gap:54px;align-items:center}
+.donleft h2{font-family:var(--disp);font-size:clamp(34px,4.5vw,52px);text-transform:uppercase;line-height:1}
+.donleft h2 em{font-style:normal;color:var(--green)}
+.donleft p{color:#d9d2ee;margin:18px 0;line-height:1.7;max-width:480px}
+.dlist{list-style:none;margin:6px 0 22px}
+.dlist li{display:flex;gap:12px;align-items:center;font-family:var(--cond);font-weight:600;font-size:17px;letter-spacing:.4px;color:#e9defa;padding:7px 0}
+.dlist .ck{color:var(--green);font-weight:800}
+.donslogan{font-family:var(--disp);font-size:clamp(24px,3vw,34px);text-transform:uppercase;line-height:1.05}
+.donslogan .p{color:#fff}.donslogan .g{display:block;color:var(--green)}
+.doncard{background:linear-gradient(170deg,#231835,#160f24);border:1px solid rgba(255,46,200,.35);border-radius:20px;padding:30px;box-shadow:0 24px 70px rgba(0,0,0,.55),0 0 44px rgba(255,46,200,.08);text-align:center}
+.doncard img.bdg{width:92px;height:92px;border-radius:50%;border:2px solid rgba(255,210,74,.5);box-shadow:0 0 30px rgba(255,210,74,.25);margin:-66px auto 10px;display:block;background:#0a0812}
+.doncard h3{font-family:var(--disp);font-size:26px;text-transform:uppercase}
+.doncard .s{font-family:var(--cond);font-weight:700;letter-spacing:2px;font-size:13px;color:var(--pink2);text-transform:uppercase;margin:2px 0 18px}
+.doncard select{width:100%;margin-bottom:14px}
+.amts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.amt{font-family:var(--cond);font-weight:800;font-size:17px;padding:12px 0;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:#e9defa;cursor:pointer;transition:all .14s}
+.amt:hover{border-color:var(--pink)}
+.amt.on{background:linear-gradient(135deg,#ff2ec8,#b915ff);border-color:transparent;color:#fff;box-shadow:0 4px 18px rgba(255,46,200,.4)}
+.oth{display:flex;gap:10px;margin-bottom:16px}
+.oth input{flex:1;background:rgba(0,0,0,.4);border:1px solid var(--line);border-radius:10px;color:var(--txt);font-family:var(--cond);font-weight:700;font-size:16px;padding:12px 14px;outline:none}
+.oth input:focus{border-color:var(--pink)}
+.donbtn{width:100%;font-size:17px;padding:16px}
+.donfine{font-size:11.5px;color:var(--dim);margin-top:14px;line-height:1.6}
+.donfine a{color:var(--dim)}
+@media(max-width:980px){.dongrid{grid-template-columns:1fr;gap:70px}}
+/* ---------- THEORY ---------- */
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px}
+.tq{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--pink);border-radius:14px;padding:22px}
+.tq p{color:#e2d9f5;font-size:14.5px;line-height:1.7}
+.tq .qs{display:block;margin-top:14px;font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:1.2px;color:var(--dim);text-transform:uppercase}
+.tq .qs a{color:var(--dim)}
+.method{margin-top:30px;background:rgba(77,159,255,.05);border:1px solid rgba(77,159,255,.25);border-radius:14px;padding:24px 26px}
+.method h4{font-family:var(--cond);font-weight:800;letter-spacing:2px;font-size:14px;color:var(--blue);text-transform:uppercase;margin-bottom:10px}
+.method p{font-size:13.5px;color:#c9bfe2;line-height:1.75}
+@media(max-width:900px){.tgrid{grid-template-columns:1fr}}
+/* ---------- PARKING TICKET ---------- */
+#tickets{background:radial-gradient(700px 380px at 15% 30%,rgba(255,210,74,.05),transparent 60%)}
+.tixgrid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.tixleft h2{font-family:var(--disp);font-size:clamp(32px,4vw,48px);text-transform:uppercase;line-height:1}
+.tixleft h2 em{font-style:normal;color:var(--gold)}
+.tixleft p{color:#d9d2ee;margin:18px 0;line-height:1.7;max-width:460px}
+.ticket{background:#f5edd8;color:#241c10;border-radius:6px;transform:rotate(-1.6deg);box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 0 1px rgba(0,0,0,.2);font-family:'Special Elite',monospace;position:relative;max-width:460px;margin:0 auto}
+.ticket:before{content:"";position:absolute;top:-12px;left:32px;width:90px;height:26px;background:rgba(255,255,255,.28);border:1px solid rgba(0,0,0,.12);transform:rotate(-4deg)}
+.tixhead{background:#c93030;color:#fff;padding:14px 22px;border-radius:6px 6px 0 0;text-align:center}
+.tixhead b{font-size:19px;letter-spacing:2px}
+.tixhead i{display:block;font-style:normal;font-size:11px;letter-spacing:3px;opacity:.85;margin-top:3px}
+.tixbody{padding:20px 24px 24px}
+.tline{display:flex;justify-content:space-between;gap:14px;border-bottom:1px dashed #b6a888;padding:9px 0;font-size:13.5px}
+.tline b{white-space:nowrap;letter-spacing:1px}
+.tline span{text-align:right}
+.tfine{display:flex;justify-content:space-between;align-items:center;margin-top:16px;background:#241c10;color:#ffd24a;padding:12px 16px;border-radius:4px}
+.tfine b{font-size:15px;letter-spacing:1.5px}
+.tfine .amt2{font-size:22px}
+.tixbtn{display:flex;justify-content:center;margin-top:18px}
+.tstamp{position:absolute;right:18px;bottom:74px;border:3px solid rgba(201,48,48,.65);color:rgba(201,48,48,.75);font-size:15px;letter-spacing:2px;padding:5px 10px;transform:rotate(-12deg);border-radius:4px;font-weight:700}
+.tixnote{font-size:11.5px;color:var(--dim);text-align:center;margin-top:16px;line-height:1.6}
+@media(max-width:900px){.tixgrid{grid-template-columns:1fr}}
+/* ---------- MODAL ---------- */
+.modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;background:rgba(5,3,10,.78);backdrop-filter:blur(6px);padding:20px}
+.modal.open{display:flex}
+.mbox{background:linear-gradient(170deg,#221836,#140e20);border:1px solid rgba(65,255,139,.4);border-radius:18px;padding:30px;max-width:430px;width:100%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.7)}
+.mbox h3{font-family:var(--disp);font-size:26px;text-transform:uppercase}
+.mbox .ms2{color:var(--muted);font-size:13.5px;line-height:1.6;margin:10px 0 18px}
+.mbox .amts{grid-template-columns:repeat(4,1fr)}
+.mskip{background:none;border:none;color:var(--dim);font-family:var(--cond);font-weight:600;font-size:13px;letter-spacing:1px;cursor:pointer;margin-top:14px;text-transform:uppercase}
+.mskip:hover{color:var(--muted)}
+.mthanks{display:none}
+.mthanks .big{font-family:var(--disp);font-size:34px;color:var(--green);text-shadow:0 0 26px rgba(65,255,139,.5)}
+/* ---------- FOOTER ---------- */
+footer{border-top:1px solid var(--line);padding:54px 0 40px;background:#080610}
+.fgrid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px}
+footer h5{font-family:var(--cond);font-weight:800;letter-spacing:2.5px;font-size:13px;color:var(--pink2);text-transform:uppercase;margin-bottom:14px}
+footer p,footer li{font-size:12.5px;color:var(--dim);line-height:1.8}
+footer ul{list-style:none}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--pink2)}
+.fbottom{margin-top:36px;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--cond);font-weight:600;font-size:12px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase}
+@media(max-width:900px){.fgrid{grid-template-columns:1fr}}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(80px);background:linear-gradient(135deg,#2bd874,#10b85b);color:#06130b;font-family:var(--cond);font-weight:800;letter-spacing:1.5px;font-size:14px;text-transform:uppercase;padding:13px 24px;border-radius:999px;box-shadow:0 14px 40px rgba(0,0,0,.5);transition:transform .3s;z-index:120}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<nav>
+  <div class="navin">
+    <a class="logo" href="#top"><span class="l1">GTA VI</span><span class="l2">CRIME TRACKER</span></a>
+    <div class="navlinks">
+      <a class="nl" href="#cities">Cities</a>
+      <a class="nl" href="#meter">Refund Meter</a>
+      <a class="nl" href="#theory">The Theory</a>
+      <a class="nl" href="#sources">Data Sources</a>
+      <a class="btn btn-ghost btn-sm" href="#tickets">🎫 Pay Our Tickets</a>
+      <a class="btn btn-pink btn-sm" href="#refund">♥ Refund the Police</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero-bg"></div><div class="hero-shade"></div>
+  <div class="heroin">
+    <div>
+      <div class="eyebrow">Real data · Real cities · Unreal timing</div>
+      <h1><span class="a">Crime is down.</span><span class="b">Keep it that way.</span></h1>
+      <p class="sub">Real crime tracking for <b>25 major U.S. cities</b>, styled in loving tribute to a certain game dropping this November. Our theory: <b>nobody wants to be in a cell on launch day.</b> Stay free. Stay legendary.</p>
+      <div class="hbtns">
+        <a class="btn btn-pink" href="#cities">📍 Explore Cities</a>
+        <a class="btn btn-ghost" href="#theory">How It Works</a>
+      </div>
+    </div>
+    <aside class="natcard">
+      <div class="lbl">National Crime Index</div>
+      <div class="natbig">▼ 19.9%</div>
+      <div class="natsub">U.S. murder · YTD 2026 vs 2025</div>
+      <div class="natbars">
+        <div class="nb"><span class="v">-15%</span><div class="bar" style="height:48px"></div><span class="y">2024</span></div>
+        <div class="nb"><span class="v">-20%</span><div class="bar" style="height:64px"></div><span class="y">2025</span></div>
+        <div class="nb"><span class="v">-19.9%</span><div class="bar" style="height:63px;background:linear-gradient(180deg,#7dffb6,#0d8f4b);box-shadow:0 0 26px rgba(65,255,139,.5)"></div><span class="y">2026 YTD</span></div>
+      </div>
+      <div class="natchips"><span class="chip">Violent <b>▼9.0%</b></span><span class="chip">Property <b>▼12.0%</b></span><span class="chip">Cities down <b>21 / 25</b></span></div>
+      <div class="natsrc">Sources: <a href="https://jasher.substack.com/p/2026-will-likely-have-the-lowest" target="_blank" rel="noopener noreferrer">Real-Time Crime Index (AH Datalytics)</a> · FBI preliminary UCR · Three straight record drops. Updated Jun 11, 2026 · Boston refreshed Jun 11, 2026 (BPD Jun 7 PDF).</div>
+    </aside>
+  </div>
+</header>
+
+<div class="cdbar">
+  <div class="cdin">
+    <div class="cdlbl">GTA VI drops <span>Nov 19, 2026</span></div>
+    <div class="cdclock" id="cd">
+      <div class="cdc"><b id="cdd">—</b><i>days</i></div>
+      <div class="cdc"><b id="cdh">—</b><i>hrs</i></div>
+      <div class="cdc"><b id="cdm">—</b><i>min</i></div>
+      <div class="cdc"><b id="cds">—</b><i>sec</i></div>
+    </div>
+    <div class="cdtag">Keep your record clean ’til launch — and after.</div>
+  </div>
+</div>
+
+<div class="ticker"><div class="tickin" id="ticker"></div></div>
+
+<section id="cities">
+  <div class="wrap">
+    <div class="shead">
+      <div>
+        <div class="eyebrow">Live City Crime Overview</div>
+        <h2>Every city. <em>Every day.</em></h2>
+        <p class="sub">Each city is compared against <b>itself</b> over the same period last year, using its own official data. Crime is trending down in <b style="color:var(--green)">21 of 25</b> tracked cities. Definitions and reporting windows vary by city — see methodology.</p>
+      </div>
+      <select class="sel" id="sortsel" aria-label="Sort cities">
+        <option value="drop">Sort: Biggest Drop</option>
+        <option value="az">Sort: A → Z</option>
+        <option value="pop">Sort: Population</option>
+      </select>
+    </div>
+    <div class="legend">
+      <span class="lg" style="color:var(--green)"><i>●</i>LIVE — refreshes from city API</span>
+      <span class="lg" style="color:var(--blue)">YTD 2026</span>
+      <span class="lg" style="color:var(--orange)">Q1 2026</span>
+      <span class="lg" style="color:var(--purple)">FY 2025</span>
+      <span class="lg">LIMITED DATA</span>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="gridfoot">🌴 Every city. Every day. Stay informed. <em>Stay legendary.</em> 🌴</div>
+  </div>
+</section>
+
+<section id="meter">
+  <div class="wrap">
+    <div class="shead">
+      <div>
+        <div class="eyebrow">Community Refund Meter</div>
+        <h2>The streets are <em>paying it back.</em></h2>
+        <p class="sub">Visitors who click through to donate can log their pledge here. Self-reported, anonymous, unverified — every dollar goes <b>directly</b> to official foundations, never through this site.</p>
+      </div>
+    </div>
+    <div class="meterbox">
+      <div class="mtotal">
+        <div class="big" id="mtotal">$0</div>
+        <div class="cap">pledged to local PDs by visitors</div>
+        <div class="mstats">
+          <div class="ms"><b id="mpledges">0</b><i>pledges logged</i></div>
+          <div class="ms"><b id="mclicks">0</b><i>refund clicks</i></div>
+          <div class="ms"><b>25</b><i>cities tracked</i></div>
+        </div>
+        <div class="mnote">Estimated from self-reported pledges (bucketed $10 / $25 / $50 / $100). This is a community scoreboard, not an audited total. Want it verified? Police foundations: call us. 📞</div>
+      </div>
+      <div class="lboard">
+        <h3>City Leaderboard</h3>
+        <div class="s">Which city refunds hardest? · by refund clicks</div>
+        <div id="lboard"><div class="lempty">The board is empty. Be the first — click <b>Refund the Police</b> on your city and claim the #1 spot. Legendary status awaits.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="refund">
+  <div class="wrap dongrid">
+    <div class="donleft">
+      <div class="eyebrow">Refund the Police</div>
+      <h2>Keep your city <em>low.</em></h2>
+      <p>Crime is dropping. Cops still have day jobs. Help your local police department keep the streets safe, clean, and <b>GTA-6-level peaceful</b> — before launch, and long after.</p>
+      <ul class="dlist">
+        <li><span class="ck">✔</span> Fund community programs</li>
+        <li><span class="ck">✔</span> Support local officers &amp; their families</li>
+        <li><span class="ck">✔</span> Invest in a safer tomorrow</li>
+      </ul>
+      <div class="donslogan"><span class="p">Refund the police.</span><span class="g">Keep the vibes high.</span></div>
+    </div>
+    <div class="doncard">
+      <img class="bdg" src="assets/badge_web.jpg" alt="Gold badge">
+      <h3>Support your local PD</h3>
+      <div class="s">Make a donation</div>
+      <select class="sel" id="citysel"><option value="">Select your city…</option></select>
+      <div class="amts" id="amts">
+        <button class="amt" data-a="10">$10</button>
+        <button class="amt on" data-a="25">$25</button>
+        <button class="amt" data-a="50">$50</button>
+        <button class="amt" data-a="100">$100</button>
+      </div>
+      <div class="oth"><input id="otheramt" type="number" min="1" placeholder="Other amount ($)"></div>
+      <button class="btn btn-pink donbtn" id="donbtn">♥ Refund the Police</button>
+      <div class="donfine">You’ll complete your donation on the foundation’s <b>official secure site</b> — 100% goes to them, this site never touches a cent. Most are 501(c)(3) nonprofits; donations are typically tax-deductible.</div>
+    </div>
+  </div>
+</section>
+<section id="theory">
+  <div class="wrap">
+    <div class="eyebrow">The Theory</div>
+    <h2 style="font-family:var(--disp);font-size:clamp(30px,4vw,46px);text-transform:uppercase;line-height:1">Coincidence? Maybe. <em style="font-style:normal;color:var(--pink2)">Legendary? Absolutely.</em></h2>
+    <p class="sub" style="color:var(--muted);font-size:15px;margin-top:10px;max-width:760px;line-height:1.7">U.S. crime has been falling at record rates heading into the biggest game launch in history. Criminologists credit better violence intervention, post-pandemic normalization, and policing investments. <b style="color:#fff">We</b> credit the fact that nobody — <i>nobody</i> — wants to be doing 5-to-10 in a bunk bed on November 19, 2026. Either way: the numbers below are real.</p>
+    <div class="tgrid">
+      <div class="tq"><p>“Murders in the U.S. fell roughly <b style="color:var(--green)">20% in 2025</b> — the largest single-year drop on record, surpassing 2024’s then-record 15% decline. The national homicide rate (~4.1 per 100k) may be the lowest the FBI has ever recorded.”</p><span class="qs"><a href="https://jasher.substack.com/p/2025-year-in-review-a-remarkable" target="_blank" rel="noopener noreferrer">Jeff Asher / Jeff-alytics, Dec 2025</a></span></div>
+      <div class="tq"><p>“Homicides dropped <b style="color:var(--green)">21% in 2025</b> across 40 large U.S. cities — potentially the lowest murder rate since 1900 — with carjackings down 61% since 2023 and violent crime at or below pre-pandemic levels.”</p><span class="qs"><a href="https://www.cbsnews.com/news/murders-plummet-crime-trends-2025/" target="_blank" rel="noopener noreferrer">Council on Criminal Justice via CBS News, Jan 2026</a></span></div>
+      <div class="tq"><p>“Murder is down <b style="color:var(--green)">~19% year-to-date</b> through April 2026 in a 30-city sample, putting 2026 on pace for the lowest U.S. murder rate ever recorded — potentially below 4 per 100,000 for the first time.”</p><span class="qs"><a href="https://jasher.substack.com/p/2026-will-likely-have-the-lowest" target="_blank" rel="noopener noreferrer">Jeff Asher / Jeff-alytics, May 2026</a></span></div>
+    </div>
+    <div class="method">
+      <h4>📊 Methodology — read this before you compare cities</h4>
+      <p>Every city card compares a city <b>to itself</b> over the same window last year, using its own official source: open-data incident APIs, CompStat/NIBRS reports, MCCA quarterly surveys, or department statements. Crime definitions differ by city (e.g. Chicago counts battery in “violent crime”; NYC tracks 7 major felonies) — so <b>don’t compare absolute counts across cities</b>. Reporting windows differ too: cards are badged LIVE, YTD 2026, Q1 2026, FY 2025, or LIMITED. LIVE cities re-query their city’s public API on every page load with a 7-day reporting-lag buffer; preliminary data can be revised. The Refund Meter is self-reported by visitors and unverified. This is a fan-made awareness project — not affiliated with Rockstar Games or Take-Two Interactive, and not an official crime statistics service.</p>
+    </div>
+  </div>
+</section>
+
+<section id="tickets">
+  <div class="wrap tixgrid">
+    <div class="tixleft">
+      <div class="eyebrow">The Tip Jar</div>
+      <h2>Help us pay our <em>parking tickets.</em></h2>
+      <p>Running a crime tracker means servers, data wrangling, and — thanks to where we parked the ’86 coupe during a “research session” on Ocean Drive — a small stack of citations under the wiper.</p>
+      <p style="color:var(--muted);font-size:13.5px">Tips fund this site only. They never mix with police donations — those go straight to official foundations.</p>
+    </div>
+    <div>
+      <div class="ticket">
+        <div class="tixhead"><b>NOTICE OF VIOLATION</b><i>VICE CITY PARKING AUTHORITY · CITATION #0619-2026</i></div>
+        <div class="tixbody">
+          <div class="tline"><b>VEHICLE:</b><span>1986 coupe, purple, chrome wheels</span></div>
+          <div class="tline"><b>LOCATION:</b><span>Ocean Drive — data loading zone</span></div>
+          <div class="tline"><b>VIOLATION:</b><span>Operating a crime tracker with no budget</span></div>
+          <div class="tline"><b>OFFICER REMARKS:</b><span>“Nice site. Pay up.”</span></div>
+          <div class="tfine"><b>FINE DUE</b><span class="amt2">$5.00+</span></div>
+          <div class="tixbtn"><a class="btn btn-green" href="https://ko-fi.com/goodsamaritan" target="_blank" rel="noopener noreferrer" id="tipbtn">🎫 Pay Our Parking Tickets</a></div>
+          <div class="tstamp">PAST DUE</div>
+        </div>
+      </div>
+      <div class="tixnote">Citation is satire. The hosting bill is not. 💸</div>
+    </div>
+  </div>
+</section>
+
+<footer id="sources">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <a class="logo" href="#top" style="margin-bottom:14px"><span class="l1">GTA VI</span><span class="l2">CRIME TRACKER</span></a>
+        <p style="margin-top:12px"><b style="color:var(--muted)">Unofficial fan project.</b> Not affiliated with, endorsed, or sponsored by Rockstar Games or Take-Two Interactive. “GTA” is referenced as homage; all artwork on this site is original. Crime figures are preliminary official data, subject to revision. Donation links go to independent charitable organizations not affiliated with this site. Nothing here is legal, financial, or tax advice.</p>
+        <p style="margin-top:10px">Privacy: no accounts, no cookies, no personal data — only anonymous counters. Terms: don’t commit crimes, especially before launch.</p>
+      </div>
+      <div>
+        <h5>National Sources</h5>
+        <ul>
+          <li><a href="https://realtimecrimeindex.com/" target="_blank" rel="noopener noreferrer">Real-Time Crime Index (AH Datalytics)</a></li>
+          <li><a href="https://jasher.substack.com/" target="_blank" rel="noopener noreferrer">Jeff-alytics (Jeff Asher)</a></li>
+          <li><a href="https://cde.ucr.cjis.gov/" target="_blank" rel="noopener noreferrer">FBI Crime Data Explorer</a></li>
+          <li><a href="https://majorcitieschiefs.com/" target="_blank" rel="noopener noreferrer">MCCA Violent Crime Surveys</a></li>
+          <li><a href="https://counciloncj.org/" target="_blank" rel="noopener noreferrer">Council on Criminal Justice</a></li>
+          <li><a href="https://www.rockstargames.com/newswire" target="_blank" rel="noopener noreferrer">Release date: Rockstar Newswire</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>City Sources</h5>
+        <p>Every card links its own source: NYPD CompStat, LAPD CompStat, Chicago Data Portal, HPD, MCCA Q1 2026, OpenDataPhilly, SAPD NIBRS, Dallas Open Data, JSO/FBI UCR, FWPD &amp; Austin via MCCA, SJPD, CMPD, CPD, IMPD Open Data, DataSF, Seattle Open Data, DPD via Denver7, OCPD via KOCO, MNPD via WSMV, DC MPD, EPPD/FBI, LVMPD, BPD.</p>
+        <h5 style="margin-top:18px">Follow the chaos</h5>
+        <p><a href="#">X/Twitter</a> · <a href="#">Instagram</a> · <a href="#">TikTok</a> · <a href="#">YouTube</a></p>
+      </div>
+    </div>
+    <div class="fbottom"><span>© 2026 GTA VI Crime Tracker — a fan-made public awareness project</span><span>Refund responsibly. 🌴</span></div>
+  </div>
+</footer>
+
+<div class="modal" id="pmodal" role="dialog" aria-modal="true">
+  <div class="mbox">
+    <div id="mform">
+      <h3>Did you refund <span id="mcity" style="color:var(--pink2)">your PD</span>?</h3>
+      <p class="ms2">The foundation’s official donation page opened in a new tab. If you donated (or will), log it anonymously — it goes on the community scoreboard.</p>
+      <div class="amts">
+        <button class="amt" data-a="10">$10</button>
+        <button class="amt on" data-a="25">$25</button>
+        <button class="amt" data-a="50">$50</button>
+        <button class="amt" data-a="100">$100</button>
+      </div>
+      <div class="oth"><input id="modalamt" type="number" min="1" placeholder="Other amount ($)"></div>
+      <button class="btn btn-green donbtn" id="mlog">✔ Log My Refund</button>
+      <br><button class="mskip" id="mskip">Skip — I’m just browsing</button>
+    </div>
+    <div class="mthanks" id="mthanks">
+      <div class="big">On the record.</div>
+      <p class="ms2">Pledge logged. Your city moves up the board. <b style="color:#fff">Legendary.</b></p>
+      <button class="btn btn-pink" id="mclose">Close</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast">💚 Pledge logged — stay legendary</div>
+<script>
+const DATA=[
+{n:"New York",st:"NY",pop:8258035,pc:-9.3,metric:"Major crimes (7 felonies)",period:"Jan 1 – May 31",c26:14788,c25:16305,m26:276,m25:246,asOf:"May 31, 2026",src:"NYPD CompStat 2.0",surl:"https://compstat.nypdonline.org/",tier:"ytd",fnd:"New York City Police Foundation",furl:"https://www.nycpolicefoundation.org/donate/"},
+{n:"Los Angeles",st:"CA",pop:3908705,pc:-4.0,metric:"Violent person crimes (NIBRS)",period:"Jan 1 – May 30",c26:9430,c25:9822,m26:115,m25:128,asOf:"May 30, 2026",src:"LAPD CompStat",surl:"https://www.lapdonline.org/statistical-data/",tier:"ytd",fnd:"Los Angeles Police Foundation",furl:"https://supportlapd.org/donate/"},
+{n:"Chicago",st:"IL",pop:2664452,pc:-3.6,metric:"Violent crime (5 categories)",period:"Jan 1 – Jun 3",c26:28118,c25:29173,m26:171,m25:165,asOf:"Jun 3, 2026",src:"Chicago Data Portal",surl:"https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-Present/ijzp-q8t2",tier:"live",fnd:"Chicago Police Foundation",furl:"https://www.chicagopolicefoundation.org/donate",live:{t:"soc",u:"https://data.cityofchicago.org/resource/ijzp-q8t2.json",d:"date",x:"primary_type in('HOMICIDE','CRIMINAL SEXUAL ASSAULT','ROBBERY','BATTERY','ASSAULT')"}},
+{n:"Houston",st:"TX",pop:2304580,pc:-14.3,metric:"Violent crime (NIBRS)",period:"Q1: Jan 1 – Mar 31",c26:4549,c25:5311,m26:49,m25:77,asOf:"Mar 31, 2026",src:"HPD / MCCA Q1 2026",surl:"https://majorcitieschiefs.com/wp-content/uploads/2026/05/MCCA-Violent-Crime-Report-2026-and-2025-First-Quarter.pdf",tier:"q1",fnd:"Houston Police Foundation",furl:"https://www.houstonpolicefoundation.org/support"},
+{n:"Phoenix",st:"AZ",pop:1608139,pc:-2.6,metric:"Violent crime",period:"Q1: Jan 1 – Mar 31",c26:2865,c25:2940,m26:25,m25:30,asOf:"Mar 31, 2026",src:"MCCA Q1 2026",surl:"https://majorcitieschiefs.com/wp-content/uploads/2026/05/MCCA-Violent-Crime-Report-2026-and-2025-First-Quarter.pdf",tier:"q1",fnd:"Phoenix Police Foundation",furl:"https://phoenixpolicefoundation.org/home"},
+{n:"Philadelphia",st:"PA",pop:1566395,pc:0.8,metric:"Violent crime (UCR Part 1)",period:"Jan 1 – Jun 10",c26:4963,c25:4922,m26:62,m25:96,asOf:"Jun 10, 2026",src:"OpenDataPhilly (Carto)",surl:"https://opendataphilly.org/datasets/crime-incidents/",tier:"live",fnd:"Philadelphia Police Foundation",furl:"https://phillypolicefoundation.org/donate/",live:{t:"carto",u:"https://phl.carto.com/api/v2/sql",tbl:"incidents_part1_part2",d:"dispatch_date_time",x:"ucr_general IN ('100','200','300','400')"}},
+{n:"San Antonio",st:"TX",pop:1472909,pc:-1.0,metric:"Crimes against persons (NIBRS)",period:"Jan 1 – Apr 30",c26:10073,c25:10171,m26:21,m25:18,asOf:"Apr 30, 2026",src:"SAPD NIBRS",surl:"https://www.sa.gov/Directory/Departments/SAPD/Transparency-Open-Data/Open-Data-Library/NIBRS",tier:"ytd",fnd:"100 Club of San Antonio",furl:"https://www.100clubsa.org/"},
+{n:"San Diego",st:"CA",pop:1386932,pc:-0.7,metric:"Violent crime",period:"Q1: Jan 1 – Mar 31",c26:1346,c25:1355,m26:12,m25:6,asOf:"Mar 31, 2026",src:"MCCA Q1 2026",surl:"https://majorcitieschiefs.com/wp-content/uploads/2026/05/MCCA-Violent-Crime-Report-2026-and-2025-First-Quarter.pdf",tier:"q1",note:"Murder uptick is off a very small base (+6 cases).",fnd:"San Diego Police Foundation",furl:"https://sdpolicefoundation.org/"},
+{n:"Dallas",st:"TX",pop:1302868,pc:-2.7,metric:"Violent crime (NIBRS)",period:"Jan 1 – Jun 10",c26:3695,c25:3797,m26:47,m25:36,asOf:"Jun 10, 2026",src:"Dallas Open Data",surl:"https://www.dallasopendata.com/Public-Safety/Police-Incidents/qv6i-rri7",tier:"live",fnd:"Dallas Police Foundation",furl:"https://dallaspolicefoundation.com/",live:{t:"soc",u:"https://www.dallasopendata.com/resource/qv6i-rri7.json",d:"date1",x:"nibrs_crime_category in('HOMICIDE OFFENSES','ASSAULT OFFENSES','ROBBERY','SEX OFFENSES','KIDNAPPING/ ABDUCTION')"}},
+{n:"Jacksonville",st:"FL",pop:1009833,pc:null,metric:"Violent crime (FBI UCR)",period:"FY 2024 — latest available",c26:null,c25:6032,bl:["FY24",""],m26:null,m25:null,asOf:"Dec 31, 2024",src:"FBI UCR via CDE",surl:"https://cde.ucr.cjis.gov/",tier:"lim",note:"JSO publishes no open YTD feed — 6,032 violent crimes in FY 2024 is the latest official figure.",fnd:"Police Athletic League of Jacksonville",furl:"https://jaxpal.org/donate/"},
+{n:"Fort Worth",st:"TX",pop:978000,pc:-20.4,metric:"Violent crime (UCR Part 1)",period:"FY 2025 vs FY 2024",c26:3929,c25:4934,bl:["FY24","FY25"],m26:81,m25:75,asOf:"Dec 31, 2025",src:"MCCA Year-End 2025",surl:"https://majorcitieschiefs.com/wp-content/uploads/2026/02/MCCA-Violent-Crime-Report-2025-and-2024-Year-End.pdf",tier:"fy",fnd:"Fort Worth Police Foundation",furl:"https://fwpolicefoundation.org/donate"},
+{n:"Austin",st:"TX",pop:980000,pc:-10.0,metric:"Violent crime (UCR Part 1)",period:"FY 2025 vs FY 2024",c26:4183,c25:4647,bl:["FY24","FY25"],m26:66,m25:73,asOf:"Dec 31, 2025",src:"MCCA Year-End 2025",surl:"https://majorcitieschiefs.com/wp-content/uploads/2026/02/MCCA-Violent-Crime-Report-2025-and-2024-Year-End.pdf",tier:"fy",fnd:"Austin Police Benevolent Foundation",furl:"https://apbfoundation.org/charity-donations/"},
+{n:"San Jose",st:"CA",pop:990000,pc:-13.0,metric:"Violent crime",period:"FY 2025 vs FY 2024",c26:4912,c25:5649,bl:["FY24","FY25"],m26:null,m25:null,asOf:"Jun 2, 2026",src:"SJPD / MCCA",surl:"https://www.sjpd.org/records/crime-stats-maps/crime-statistics",tier:"fy",note:"2026 so far (Jan–Apr): 1,435 violent incidents, 6 murders vs 24 in all of 2025 (SJPD).",fnd:"San Jose Police Foundation",furl:"https://sanjosepolicefoundation.org/donation-options"},
+{n:"Charlotte",st:"NC",pop:960000,pc:-18.3,metric:"Violent crime",period:"Q1: Jan 1 – Mar 31",c26:1108,c25:1357,m26:22,m25:16,asOf:"Apr 16, 2026",src:"CMPD Q1 2026 Report",surl:"https://www.charlottenc.gov/cmpd/News-Information/Crime-Statistics-Report",tier:"q1",fnd:"Charlotte-Mecklenburg Police Foundation",furl:"https://charlottepolicefoundation.org/"},
+{n:"Columbus",st:"OH",pop:915000,pc:-36.6,metric:"Violent crime (UCR Part 1)",period:"FY 2025 vs FY 2024",c26:2912,c25:4595,bl:["FY24","FY25"],m26:null,m25:null,asOf:"May 10, 2026",src:"MCCA Year-End 2025 / CPD",surl:"https://majorcitieschiefs.com/wp-content/uploads/2026/02/MCCA-Violent-Crime-Report-2025-and-2024-Year-End.pdf",tier:"fy",note:"Only 17 homicides through April 2026 — the lowest start to a year since at least 1985 (CPD tracker).",fnd:"Columbus Police Foundation",furl:"https://www.thecolumbuspolicefoundation.info/"},
+{n:"Indianapolis",st:"IN",pop:890000,pc:-29.6,metric:"Violent crime (NIBRS)",period:"Jan 1 – May 31",c26:1841,c25:2616,m26:42,m25:47,asOf:"Jun 11, 2026",src:"IMPD Open Data (ArcGIS)",surl:"https://data.indy.gov/",tier:"ytd",fnd:"Central Indiana Police Foundation",furl:"https://cipf.foundation/donate-to-cipf/"},
+{n:"San Francisco",st:"CA",pop:873000,pc:-7.6,metric:"Violent crime (4 categories)",period:"Jan 1 – Jun 10",c26:3829,c25:4146,m26:23,m25:14,asOf:"Jun 10, 2026",src:"DataSF",surl:"https://data.sfgov.org/Public-Safety/Police-Department-Incident-Reports-2018-to-Present/wg3w-h783",tier:"live",fnd:"SF Police Community Foundation",furl:"https://sfpolicecommunity.org/donate/",live:{t:"soc",u:"https://data.sfgov.org/resource/wg3w-h783.json",d:"incident_datetime",x:"incident_category in('Assault','Robbery','Homicide','Rape')"}},
+{n:"Seattle",st:"WA",pop:749256,pc:-0.9,metric:"Violent crime (NIBRS)",period:"Jan 1 – Jun 10",c26:2101,c25:2120,m26:11,m25:13,asOf:"Jun 10, 2026",src:"Seattle Open Data",surl:"https://data.seattle.gov/Public-Safety/SPD-Crime-Data-2008-Present/tazs-3rd5",tier:"live",fnd:"Seattle Police Foundation",furl:"https://seattlepolicefoundation.org/",live:{t:"soc",u:"https://data.seattle.gov/resource/tazs-3rd5.json",d:"offense_date",x:"offense_category='VIOLENT CRIME'"}},
+{n:"Denver",st:"CO",pop:715522,pc:-24.3,metric:"Homicides (citywide feed offline)",period:"Jan 1 – May 14",c26:28,c25:37,m26:28,m25:37,asOf:"May 14, 2026",src:"DPD via Denver7",surl:"https://www.thedenverchannel.com/news/local-news/denver-sees-24-decrease-in-homicides-so-far-in-2026",tier:"ytd",note:"Denver’s open-data violent-crime feed is deprecated — homicide trend shown instead.",fnd:"Denver Police Foundation",furl:"https://denverpolicefoundation.org/donate/"},
+{n:"Oklahoma City",st:"OK",pop:681054,pc:null,metric:"Homicides (early-year only)",period:"Jan 1 – Feb 9",c26:8,c25:null,m26:8,m25:null,asOf:"Feb 9, 2026",src:"OCPD via KOCO",surl:"https://www.koco.com/article/oklahoma-city-homicide-2026/63885312",tier:"lim",note:"8 homicides through Feb 9, 2026. Full-year 2025: 74. OCPD has no public open-data feed.",fnd:"Oklahoma City Police Foundation",furl:"https://www.okcpf.org/donate"},
+{n:"Nashville",st:"TN",pop:678448,pc:-18.0,metric:"Violent crime (MNPD statement)",period:"Q1: Jan 1 – Mar 31",c26:null,c25:null,m26:null,m25:null,asOf:"Apr 15, 2026",src:"MNPD via WSMV",surl:"https://www.wsmv.com/2026/04/15/nashville-violent-crime-drops-18-percent-first-quarter-2026-police-chief-says/",tier:"q1",note:"Chief Drake: violent crime down 18% in Q1 2026. MNPD’s open-data portal is deprecated; counts not published.",fnd:"Nashville Police + Public Safety Alliance",furl:"https://www.thenashvillealliance.org/donate"},
+{n:"Washington",st:"DC",pop:678972,pc:-3.3,metric:"Violent crime",period:"Jan 1 – Jun 10",c26:1150,c25:1189,m26:39,m25:72,asOf:"Jun 10, 2026",src:"DC MPD Open Data",surl:"https://mpdc.dc.gov/page/district-crime-data-glance",tier:"ytd",fnd:"DC Police Foundation",furl:"https://www.dcpolicefoundation.org/support.html"},
+{n:"El Paso",st:"TX",pop:678815,pc:null,metric:"Violent crime (FBI UCR)",period:"FY 2023 — latest available",c26:null,c25:null,m26:null,m25:null,asOf:"Dec 31, 2023",src:"FBI UCR via CDE",surl:"https://cde.ucr.cjis.gov/",tier:"lim",note:"EPPD publishes no open YTD feed. Routinely ranked among the safest large U.S. cities. Foundation site is temporarily offline.",fnd:"El Paso Police Foundation (site offline)",furl:null,alturl:"https://www.eppd.org/"},
+{n:"Las Vegas",st:"NV",pop:641903,pc:-2.1,metric:"Violent crime (LVMPD jurisdiction)",period:"FY 2025 vs FY 2024",c26:null,c25:null,m26:null,m25:58,asOf:"Dec 31, 2025",src:"LVMPD via Review-Journal",surl:"https://www.reviewjournal.com/crime/lvmpd-2025-crime-statistics-violent-crime-homicides",tier:"fy",note:"58 homicides in 2025 across LVMPD jurisdiction (metro + unincorporated Clark County).",fnd:"LVMPD Foundation",furl:"https://lvmpdfoundation.org/ways-to-give/"},
+{n:"Boston",st:"MA",pop:675647,pc:-1.6,metric:"Violent crime (Part 1)",period:"Jan 1 – Jun 7",c26:1370,c25:1392,m26:6,m25:15,asOf:"Jun 7, 2026",src:"BPD Weekly Crime Overview",surl:"https://police.boston.gov/crime-statistics/",tier:"ytd",fnd:"Boston Police Foundation",furl:"https://bostonpolicefoundation.org/make-a-donation/"}
+];
+const HUES=[["#a06bff","#6b2bd9"],["#ff2ec8","#b915ff"],["#4d9fff","#2456d9"],["#ffa53d","#e06a10"],["#41ff8b","#0d9f55"],["#2dd9c7","#0d8f85"]];
+const NS="gta6ct_cmq9szu",API="https://api.counterapi.dev/v1/"+NS+"/";
+const fmt=n=>n==null?"—":n.toLocaleString("en-US");
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]/g,"");
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
+function rng(seed){let h=2166136261;for(const c of seed)h=Math.imul(h^c.charCodeAt(0),16777619);return()=>{h=Math.imul(h^h>>>15,2246822507);h=Math.imul(h^h>>>13,3266489909);return((h^=h>>>16)>>>0)/4294967296}}
+function sky(c,i){const r=rng(c.n),[h1,h2]=HUES[i%6];let b="",x=0;while(x<320){const w=14+r()*26,ht=18+r()*78,y=110-ht;b+=`<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${w.toFixed(1)}" height="${ht.toFixed(1)}" fill="url(#g${i})" opacity="${(.55+r()*.45).toFixed(2)}"/>`;if(r()>.72)b+=`<rect x="${(x+w/2).toFixed(1)}" y="${(y-9).toFixed(1)}" width="1.6" height="9" fill="${h1}" opacity=".8"/>`;x+=w+2+r()*6}
+let pl="",col="#6e6390",dash="";if(c.pc!=null){const up=c.pc>0;col=up?"#ff4d5e":"#41ff8b";let pts=[],y=up?86:24;for(let px=8;px<=312;px+=38){pts.push(px+","+y.toFixed(1));y+=(up?-1:1)*(4+r()*9)-(r()*4)*(up?-1:1)}pl=pts.join(" ")}else{pl="8,55 312,55";dash='stroke-dasharray="5 6"'}
+return`<svg viewBox="0 0 320 118" preserveAspectRatio="none"><defs><linearGradient id="g${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${h1}"/><stop offset="1" stop-color="${h2}" stop-opacity=".25"/></linearGradient><linearGradient id="s${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${h1}" stop-opacity=".34"/><stop offset="1" stop-color="#0a0812"/></linearGradient></defs><rect width="320" height="118" fill="url(#s${i})"/>${b}<polyline points="${pl}" fill="none" stroke="${col}" stroke-width="2.5" ${dash} opacity=".95" stroke-linecap="round"/></svg>`}
+const TIERS={live:'<span class="badge bg-live"><i></i>LIVE</span>',ytd:'<span class="badge bg-ytd">YTD 2026</span>',q1:'<span class="badge bg-q1">Q1 2026</span>',fy:'<span class="badge bg-fy">FY 2025</span>',lim:'<span class="badge bg-lim">LIMITED DATA</span>'};
+function pctHtml(pc){if(pc==null)return'<div class="cpct flat">—</div>';const cls=pc>0?"up":"down",ar=pc>0?"▲":"▼";return`<div class="cpct ${cls}">${ar} ${Math.abs(pc).toFixed(1)}%</div>`}
+function murderChip(c){if(c.m26==null||c.m25==null||c.m25===0)return"";const ch=(c.m26-c.m25)/c.m25*100,up=ch>0;return`<span class="mchip ${up?"mup":"mdown"}">Murders ${up?"▲":"▼"} ${Math.abs(ch).toFixed(1)}% (${fmt(c.m26)} vs ${fmt(c.m25)})</span>`}
+function barsHtml(c){if(c.c26==null&&c.c25==null)return"";const bl=c.bl||["2025","2026"],mx=Math.max(c.c25||0,c.c26||0)||1,[h1]=HUES[DATA.indexOf(c)%6];let h="";
+if(c.c25!=null)h+=`<div class="brow"><span class="yl">${bl[0]}</span><div class="tr"><div class="fl" style="width:${(c.c25/mx*100).toFixed(1)}%;background:#4a3f6b"></div></div><span class="ct">${fmt(c.c25)}</span></div>`;
+if(c.c26!=null)h+=`<div class="brow"><span class="yl">${bl[1]||"2026"}</span><div class="tr"><div class="fl b26" style="width:${(c.c26/mx*100).toFixed(1)}%;background:linear-gradient(90deg,${h1},${h1}88)"></div></div><span class="ct ct26">${fmt(c.c26)}</span></div>`;
+return`<div class="bars">${h}</div>`}
+function card(c){const i=DATA.indexOf(c),s=slug(c.n);
+const btn=c.furl?`<button class="cbtn" data-city="${s}">♥ Refund ${esc(c.n)} PD</button>`:`<a class="cbtn off" href="${c.alturl}" target="_blank" rel="noopener noreferrer" data-cityoff="${s}">⚠ Foundation offline — visit EPPD</a>`;
+return`<article class="card" id="card-${s}"><div class="sky">${sky(c,i)}</div><div class="cbody">
+<div class="crow1"><div><div class="cname">${esc(c.n)}</div><div class="cstate">${c.st} · pop ${c.pop>=1e6?(c.pop/1e6).toFixed(1)+"M":Math.round(c.pop/1e3)+"K"}</div></div>${pctHtml(c.pc)}</div>
+<div class="cmetric"><span class="metric-lbl">${esc(c.metric)}</span> · <span class="period-lbl">${esc(c.period)}</span>${c.bl||c.tier==="lim"?"":" · vs same period 2025"}</div>
+${barsHtml(c)}
+<div class="chips">${TIERS[c.tier]}${murderChip(c)}</div>
+${c.note?`<div class="cnote">${esc(c.note)}</div>`:""}
+<div class="cfoot"><div class="csrc"><a href="${c.surl}" target="_blank" rel="noopener noreferrer">Source: ${esc(c.src)} ↗</a><span class="asof">as of ${esc(c.asOf)}</span></div>${btn}</div>
+</div></article>`}
+function render(){const m=document.getElementById("sortsel").value,a=[...DATA];
+if(m==="az")a.sort((x,y)=>x.n.localeCompare(y.n));else if(m==="pop")a.sort((x,y)=>y.pop-x.pop);else a.sort((x,y)=>(x.pc==null?99:x.pc)-(y.pc==null?99:y.pc));
+document.getElementById("grid").innerHTML=a.map(card).join("");
+document.querySelectorAll(".cbtn[data-city]").forEach(b=>b.addEventListener("click",()=>refund(b.dataset.city)));
+document.querySelectorAll("[data-cityoff]").forEach(b=>b.addEventListener("click",()=>{bump("clicks");bump("c_"+b.dataset.cityoff)}));}
+document.getElementById("sortsel").addEventListener("change",render);
+/* ticker */
+const TK=["Since the GTA 6 countdown started, crime is down across the country. Coincidence? Maybe. Legendary? Absolutely. 🎮","U.S. murder down ~20% in 2025 — the largest one-year drop on record 📉","2026 on pace for the lowest U.S. murder rate ever recorded (Jeff Asher) 🏆","Washington D.C.: murders down 45.8% YTD ✨","Boston: murders down 60% YTD 🍀","Houston: violent crime down 14.3% in Q1 🤠","Columbus: fewest homicides to start a year since 1985 🏟️","Indianapolis: violent crime down 29.6% YTD 🏁","Don’t be the statistic. Be the donor. ♥ Refund the Police","Carjackings down 61% since 2023 (Council on Criminal Justice) 🚗"];
+document.getElementById("ticker").innerHTML=(TK.concat(TK)).map(t=>`<span class="tk"><span class="dot">◆</span>${t}</span>`).join("");
+/* countdown */
+const T0=new Date("2026-11-19T00:00:00-05:00");
+setInterval(()=>{let d=Math.max(0,T0-new Date());const dd=Math.floor(d/864e5);d-=dd*864e5;const hh=Math.floor(d/36e5);d-=hh*36e5;const mm=Math.floor(d/6e4),ss=Math.floor(d%6e4/1e3);
+cdd.textContent=dd;cdh.textContent=String(hh).padStart(2,"0");cdm.textContent=String(mm).padStart(2,"0");cds.textContent=String(ss).padStart(2,"0")},1000);
+/* counters */
+async function read(n){try{const r=await fetch(API+n+"/");if(!r.ok)return 0;return(await r.json()).count||0}catch(e){return 0}}
+function bump(n){fetch(API+n+"/up").catch(()=>{})}
+const BUCKETS=[10,25,50,100];let M={b10:0,b25:0,b50:0,b100:0,clicks:0},CITYCL={};
+function paintMeter(){const tot=10*M.b10+25*M.b25+50*M.b50+100*M.b100,pl=M.b10+M.b25+M.b50+M.b100;
+mtotal.textContent="$"+fmt(tot);mpledges.textContent=fmt(pl);mclicks.textContent=fmt(M.clicks);
+const rows=Object.entries(CITYCL).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,5);
+if(rows.length){const med=["🥇","🥈","🥉","4","5"];lboard.innerHTML=rows.map(([s,v],i)=>{const c=DATA.find(d=>slug(d.n)===s);return`<div class="lrow"><span class="rk">${med[i]}</span><span class="cn">${c?c.n+", "+c.st:s}</span><span class="cl">${fmt(v)} clicks</span></div>`}).join("")}}
+async function loadMeter(){const ks=["clicks","b10","b25","b50","b100"];const vs=await Promise.all(ks.map(read));ks.forEach((k,i)=>M[k]=vs[i]);
+const cs=await Promise.all(DATA.map(c=>read("c_"+slug(c.n))));DATA.forEach((c,i)=>CITYCL[slug(c.n)]=cs[i]);paintMeter()}
+/* refund flow */
+let pendCity=null,pendAmt=25;
+function refund(s){const c=DATA.find(d=>slug(d.n)===s);if(!c||!c.furl)return;
+M.clicks++;CITYCL[s]=(CITYCL[s]||0)+1;bump("clicks");bump("c_"+s);paintMeter();
+window.open(c.furl,"_blank","noopener");pendCity=s;mcity.textContent=c.n+" PD";
+mform.style.display="block";mthanks.style.display="none";pmodal.classList.add("open")}
+function wireAmts(box,inp){box.querySelectorAll(".amt").forEach(b=>b.addEventListener("click",()=>{box.querySelectorAll(".amt").forEach(x=>x.classList.remove("on"));b.classList.add("on");pendAmt=+b.dataset.a;if(inp)inp.value=""}))}
+wireAmts(document.querySelector("#pmodal .amts"),modalamt);wireAmts(document.getElementById("amts"),otheramt);
+function bucketOf(a){let best=10,bd=1e9;for(const b of BUCKETS){const d=Math.abs(a-b);if(d<bd){bd=d;best=b}}return best}
+mlog.addEventListener("click",()=>{let a=parseFloat(modalamt.value);if(!a||a<=0)a=pendAmt;const b=bucketOf(a);M["b"+b]++;bump("b"+b);paintMeter();
+mform.style.display="none";mthanks.style.display="block";
+toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2600)});
+mskip.addEventListener("click",()=>pmodal.classList.remove("open"));
+mclose.addEventListener("click",()=>pmodal.classList.remove("open"));
+pmodal.addEventListener("click",e=>{if(e.target===pmodal)pmodal.classList.remove("open")});
+/* donate card */
+const cs2=document.getElementById("citysel");
+DATA.forEach(c=>{const o=document.createElement("option");o.value=slug(c.n);o.textContent=c.n+", "+c.st+(c.furl?" — "+c.fnd:" (foundation site offline)");if(!c.furl)o.disabled=true;cs2.appendChild(o)});
+donbtn.addEventListener("click",()=>{const v=cs2.value;if(!v){cs2.style.borderColor="#ff2ec8";cs2.focus();return}
+const o=parseFloat(otheramt.value);if(o>0)pendAmt=o;refund(v)});
+/* live refresh */
+const d2s=d=>d.toISOString().slice(0,10);
+async function live(){const end=new Date(Date.now()-7*864e5),end25=new Date(end);end25.setFullYear(end.getFullYear()-1);
+for(const c of DATA){if(!c.live)continue;const L=c.live,s=slug(c.n);
+const q=async(y0,y1)=>{let u;if(L.t==="soc"){u=L.u+"?$select=count(*) as c&$where="+encodeURIComponent(`${L.d} between '${y0}T00:00:00' and '${y1}T23:59:59' AND ${L.x}`)}else{u=L.u+"?q="+encodeURIComponent(`SELECT count(*) as c FROM ${L.tbl} WHERE ${L.d} >= '${y0}' AND ${L.d} <= '${y1} 23:59:59' AND ${L.x}`)}
+const r=await fetch(u);if(!r.ok)throw 0;const j=await r.json();return+(L.t==="soc"?j[0].c:j.rows[0].c)};
+try{const[v26,v25]=await Promise.all([q("2026-01-01",d2s(end)),q("2025-01-01",d2s(end25))]);if(!v26||!v25)continue;
+c.c26=v26;c.c25=v25;c.pc=+(((v26-v25)/v25)*100).toFixed(1);c.period="Jan 1 – "+end.toLocaleDateString("en-US",{month:"short",day:"numeric"});c.asOf=end.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})+" (live)";
+const el=document.getElementById("card-"+s);if(el)el.outerHTML=card(DATA.find(d=>slug(d.n)===s));
+document.querySelectorAll(`#card-${s} .cbtn[data-city]`).forEach(b=>b.addEventListener("click",()=>refund(b.dataset.city)));
+}catch(e){}}}
+render();loadMeter();live();
+</script>
+</body>
+</html>
