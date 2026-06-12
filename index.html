@@ -1,122 +1,9 @@
-<!DOCTYPE html><script>"use strict";
-(() => {
-  // src/public-scripts/iframe-error-handler-script.ts
-  (function() {
-    if (!window.parent || window.parent === window) return;
-    const parentFrame = window.parent;
-    const send = function(error) {
-      try {
-        parentFrame.postMessage({ type: "IFRAME_JS_ERROR", error }, "*");
-      } catch (_x) {
-      }
-    };
-    function isOpaqueCrossOriginError(error) {
-      return error.message === "Script error." && !error.url && !error.line && !error.col && !error.stack;
-    }
-    window.onerror = function(message, url, line, col, errorObj) {
-      const payload = {
-        message: String(message),
-        url: url || "",
-        line: line || 0,
-        col: col || 0,
-        stack: errorObj && errorObj.stack || ""
-      };
-      if (isOpaqueCrossOriginError(payload)) return;
-      send(payload);
-    };
-    window.addEventListener("unhandledrejection", function(event) {
-      send({
-        message: String(event.reason),
-        stack: event.reason && event.reason.stack || ""
-      });
-    });
-    const queue = [];
-    let running = false;
-    function processQueue() {
-      if (running || !queue.length) return;
-      running = true;
-      const item = queue.shift();
-      fetch(item.url).then(function(response) {
-        return response.ok ? response.text() : Promise.reject();
-      }).then(function(text) {
-        const script = document.createElement("script");
-        if (item.type) script.type = item.type;
-        script.textContent = text + "\n//# sourceURL=" + item.url;
-        if (item.el.onload) script.onload = item.el.onload;
-        if (item.el.onerror) script.onerror = item.el.onerror;
-        try {
-          item.parentNode.insertBefore(script, item.nextSibling);
-        } catch (_e) {
-          try {
-            item.parentNode.appendChild(script);
-          } catch (_e2) {
-          }
-        }
-      }).catch(function() {
-        return new Promise(function(resolve) {
-          if (!item.parentNode.isConnected) {
-            resolve();
-            return;
-          }
-          const fallback = document.createElement("script");
-          fallback.async = false;
-          fallback.src = item.url;
-          if (item.type) fallback.type = item.type;
-          if (item.el.onload) fallback.onload = item.el.onload;
-          if (item.el.onerror) fallback.onerror = item.el.onerror;
-          fallback.setAttribute("data-ha-processed", "1");
-          fallback.addEventListener("load", function() {
-            resolve();
-          });
-          fallback.addEventListener("error", function() {
-            resolve();
-          });
-          try {
-            item.parentNode.insertBefore(fallback, item.nextSibling);
-          } catch (_e) {
-            try {
-              item.parentNode.appendChild(fallback);
-            } catch (_e2) {
-              resolve();
-            }
-          }
-        });
-      }).then(function() {
-        running = false;
-        processQueue();
-      });
-    }
-    new MutationObserver(function(mutations) {
-      for (let i = 0; i < mutations.length; i++) {
-        const addedNodes = mutations[i].addedNodes;
-        for (let j = 0; j < addedNodes.length; j++) {
-          const node = addedNodes[j];
-          if (node.nodeName === "SCRIPT" && node.src && node.type !== "module" && !node.hasAttribute("data-ha-processed") && !(node.parentNode && node.parentNode.nodeName === "HEAD")) {
-            node.setAttribute("data-ha-processed", "1");
-            const par = node.parentNode;
-            if (!par) continue;
-            const sib = node.nextSibling;
-            par.removeChild(node);
-            queue.push({
-              url: node.src,
-              el: node,
-              type: node.type,
-              parentNode: par,
-              nextSibling: sib
-            });
-          }
-        }
-      }
-      processQueue();
-    }).observe(document.documentElement, { childList: true, subtree: true });
-  })();
-})();
-</script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-                                            <meta charset="UTF-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Refund the Police Crime Tracker — Crime Is Down. Keep It That Way.</title>
+<title>GTA VI Crime Tracker — Crime Is Down. Keep It That Way.</title>
 <meta name="description" content="Real crime data for 25 major U.S. cities, tracked GTA-style. Crime is down — keep it that way. Refund the police.">
 <meta property="og:title" content="GTA VI Crime Tracker — Crime Is Down. Keep It That Way.">
 <meta property="og:description" content="Real crime data. 25 cities. One countdown. Refund the police.">
@@ -288,39 +175,6 @@ section{padding:84px 0}
 .lrow .rk{font-family:var(--disp);font-size:20px;color:var(--gold);width:30px}
 .lrow .cn{font-family:var(--cond);font-weight:700;font-size:16px;letter-spacing:.5px;flex:1;text-transform:uppercase}
 .lrow .cl{font-family:var(--cond);font-weight:800;font-size:15px;color:var(--pink2)}
-/* ---- verified meter v2 ---- */
-.vbadge{display:inline-flex;align-items:center;gap:8px;background:rgba(65,255,139,.1);border:1px solid rgba(65,255,139,.45);color:var(--green);font-family:var(--cond);font-weight:800;letter-spacing:2px;font-size:12.5px;text-transform:uppercase;border-radius:999px;padding:6px 13px;margin-bottom:8px}
-.vbadge i{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:vpulse 1.6s infinite}
-@keyframes vpulse{0%,100%{opacity:1}50%{opacity:.4}}
-.vstamp{display:inline-block;font-family:'Special Elite',monospace;font-size:12px;color:var(--gold);background:rgba(255,210,74,.07);border:1px dashed rgba(255,210,74,.45);border-radius:8px;padding:7px 11px;margin-top:14px}
-.lrow .vfy{font-family:var(--cond);font-weight:700;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--teal);text-decoration:none;border-bottom:1px dotted rgba(45,217,199,.5);margin-left:8px}
-.lrow .gifts{font-size:10.5px;color:var(--dim);display:block;font-weight:600;letter-spacing:.5px;text-align:right}
-.spgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px}
-@media(max-width:820px){.spgrid{grid-template-columns:1fr}}
-.spcard{border-radius:16px;border:1px solid var(--line);background:var(--panel);padding:24px}
-.spb{display:inline-block;font-family:var(--cond);font-weight:800;font-size:11px;letter-spacing:2px;text-transform:uppercase;border-radius:999px;padding:5px 11px;margin-bottom:12px}
-.spb.gold{background:rgba(255,210,74,.1);color:var(--gold);border:1px solid rgba(255,210,74,.5)}
-.spb.blue{background:rgba(77,159,255,.1);color:var(--blue);border:1px solid rgba(77,159,255,.5)}
-.spcard h4{font-family:var(--disp);font-size:25px;text-transform:uppercase;margin-bottom:7px}
-.spein{font-family:'Special Elite',monospace;font-size:11.5px;color:var(--gold);margin:8px 0}
-.spcard p{font-size:13.5px;color:var(--muted);line-height:1.7}
-.spcard p b{color:var(--txt)}
-.splink{display:inline-block;margin-top:13px;font-family:var(--cond);font-weight:800;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--pink2);text-decoration:none;border:1.5px solid rgba(255,46,200,.5);border-radius:8px;padding:8px 13px}
-.splink:hover{background:rgba(255,46,200,.1)}
-.spauto{display:block;font-size:11.5px;color:var(--dim);font-style:italic;margin-top:10px}
-.rledger{margin-top:26px;background:var(--panel);border:1px solid var(--line);border-radius:18px;overflow:hidden}
-.rledger table{width:100%;border-collapse:collapse;font-size:13px}
-.rledger th{font-family:var(--cond);font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:11px;color:var(--dim);text-align:left;padding:13px 14px;border-bottom:1px solid var(--line);background:rgba(18,13,30,.6)}
-.rledger td{padding:10px 14px;border-bottom:1px solid rgba(44,34,68,.5);color:var(--muted);vertical-align:middle}
-.rledger tr:last-child td{border-bottom:none}
-.rledger td.c{color:#fff;font-family:var(--cond);font-weight:800;font-size:14px;white-space:nowrap}
-.rledger td.e{font-family:'Special Elite',monospace;font-size:11px;color:var(--gold);white-space:nowrap}
-.rledger a.v{color:var(--teal);text-decoration:none;font-family:var(--cond);font-weight:700;font-size:11.5px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px dotted rgba(45,217,199,.5)}
-.rtag{display:inline-block;font-family:var(--cond);font-weight:800;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;border-radius:6px;padding:3px 8px;white-space:nowrap}
-.rtag.ev{background:rgba(65,255,139,.1);color:var(--green);border:1px solid rgba(65,255,139,.4)}
-.rtag.dr{background:rgba(255,210,74,.09);color:var(--gold);border:1px solid rgba(255,210,74,.4)}
-.rnote{font-size:11.5px;color:var(--dim);padding:13px 14px;border-top:1px solid var(--line);line-height:1.6}
-@media(max-width:740px){.rledger .hm{display:none}}
 .lempty{color:var(--dim);font-size:13.5px;line-height:1.7;padding:14px 4px}
 @media(max-width:900px){.meterbox{grid-template-columns:1fr}}
 /* ---------- DONATE ---------- */
@@ -494,28 +348,26 @@ footer a:hover{color:var(--pink2)}
   <div class="wrap">
     <div class="shead">
       <div>
-        <div class="eyebrow">Community Refund Meter · Now Verified</div>
-        <h2>Real dollars. <em>On the record.</em></h2>
-        <p class="sub">The old meter took your word for it. This one counts <b>confirmed donations</b> — processed by every.org, granted 100% to official police foundations, and publicly auditable. Every dollar below was <b>raised through this site</b>. Same energy. Real receipts.</p>
+        <div class="eyebrow">Community Refund Meter</div>
+        <h2>The streets are <em>paying it back.</em></h2>
+        <p class="sub">Visitors who click through to donate can log their pledge here. Self-reported, anonymous, unverified — every dollar goes <b>directly</b> to official foundations, never through this site.</p>
       </div>
     </div>
     <div class="meterbox">
       <div class="mtotal">
-        <span class="vbadge"><i></i>Verified · every.org</span>
         <div class="big" id="mtotal">$0</div>
-        <div class="cap">confirmed to local PD foundations</div>
+        <div class="cap">pledged to local PDs by visitors</div>
         <div class="mstats">
-          <div class="ms"><b id="msup">0</b><i>verified supporters</i></div>
-          <div class="ms"><b>23</b><i>cities metered</i></div>
+          <div class="ms"><b id="mpledges">0</b><i>pledges logged</i></div>
+          <div class="ms"><b id="mclicks">0</b><i>refund clicks</i></div>
           <div class="ms"><b>25</b><i>cities tracked</i></div>
         </div>
-        <div class="vstamp" id="vstamp">FRESH LEDGER · FIRST WEEKLY REFRESH PENDING</div>
-        <div class="mnote"><b>100% of every donation goes to the foundation.</b> Standard card processing applies (or <b>$0 by bank transfer</b>); every.org's optional tip is yours to decline. Receipts come from every.org, a 501(c)(3) public charity — this site never touches a cent. <a href="#receipts" style="color:var(--teal)">Audit the targets ↓</a></div>
+        <div class="mnote">Estimated from self-reported pledges (bucketed $10 / $25 / $50 / $100). This is a community scoreboard, not an audited total. Want it verified? Police foundations: call us. 📞</div>
       </div>
       <div class="lboard">
         <h3>City Leaderboard</h3>
-        <div class="s">Which city refunds hardest? · by confirmed dollars</div>
-        <div id="lboard"><div class="lempty">Fresh ledger — from here on, every dollar is real. Be the first <b>verified</b> refund and claim 🥇 forever.</div></div>
+        <div class="s">Which city refunds hardest? · by refund clicks</div>
+        <div id="lboard"><div class="lempty">The board is empty. Be the first — click <b>Refund the Police</b> on your city and claim the #1 spot. Legendary status awaits.</div></div>
       </div>
     </div>
   </div>
@@ -547,45 +399,7 @@ footer a:hover{color:var(--pink2)}
       </div>
       <div class="oth"><input id="otheramt" type="number" min="1" placeholder="Other amount ($)"></div>
       <button class="btn btn-pink donbtn" id="donbtn">♥ Refund the Police</button>
-      <div class="donfine"><b>100% goes to the foundation.</b> Donations for 23 cities are processed by every.org (a 501(c)(3) public charity) and land on the verified meter — standard card fees apply, or <b>$0 by bank</b>; every.org's optional tip is declinable; your tax receipt arrives by email. Dallas &amp; New York route to their foundations' own sites (verified EINs — see <a href="#exceptions" style="color:var(--gold)">the two exceptions</a>) and aren't metered.</div>
-    </div>
-  </div>
-</section>
-<section id="exceptions">
-  <div class="wrap">
-    <div class="eyebrow">The Two Exceptions</div>
-    <h2 style="font-family:var(--disp);font-size:clamp(30px,4vw,46px);text-transform:uppercase;line-height:1">Honesty over <em style="font-style:normal;color:var(--green)">inflation.</em></h2>
-    <p class="sub" style="margin-top:12px">Two cities can't be metered through every.org yet. We say so loudly instead of faking it — the meter is only worth something if every dollar on it is real.</p>
-    <div class="spgrid">
-      <div class="spcard">
-        <span class="spb gold">★ Verified 501(c)(3) · Direct donation</span>
-        <h4>Dallas</h4>
-        <div class="spein">EIN 41-2777292 · IRS determination MAR 2026</div>
-        <p>The Dallas Police Foundation is <b>brand new</b> — so new it hasn't reached every.org's charity index yet. We verified it in the IRS's own records, so your gift is real and tax-deductible — it just goes <b>directly to the foundation</b>, and direct gifts can't show on our meter.</p>
-        <a class="splink" href="https://dallaspolicefoundation.com" target="_blank" rel="noopener noreferrer">Donate direct ↗</a>
-        <span class="spauto">Our patrol checks every.org weekly — the moment Dallas appears, it joins the meter automatically.</span>
-      </div>
-      <div class="spcard">
-        <span class="spb blue">● Direct donation · Not metered</span>
-        <h4>New York</h4>
-        <div class="spein">EIN 13-2711338 · 501(c)(3) since 1971</div>
-        <p>The NYC Police Foundation is listed on every.org, but <b>donations are switched off there</b> — so we send you to the foundation's own secure donate page. Your gift is just as real and just as deductible; it simply can't be counted here. <b>We'd rather show a smaller true number than a bigger fake one.</b></p>
-        <a class="splink" href="https://www.nycpolicefoundation.org/donate/" target="_blank" rel="noopener noreferrer">Donate direct ↗</a>
-      </div>
-    </div>
-  </div>
-</section>
-<section id="receipts">
-  <div class="wrap">
-    <div class="eyebrow">The Receipts</div>
-    <h2 style="font-family:var(--disp);font-size:clamp(30px,4vw,46px);text-transform:uppercase;line-height:1">25 cities. <em style="font-style:normal;color:var(--pink2)">25 verified EINs.</em></h2>
-    <p class="sub" style="margin-top:12px">Every donation target on this site, verified against the IRS Publication 78 / Business Master File (June 11, 2026). Federal records or it doesn't ship.</p>
-    <div class="rledger">
-      <table>
-        <thead><tr><th>City</th><th class="hm">Foundation</th><th>EIN</th><th>Route</th><th>Verify</th></tr></thead>
-        <tbody id="rtable"></tbody>
-      </table>
-      <div class="rnote"><span class="rtag ev">every.org</span> metered &amp; verified — donations land on the meter via a public fundraiser anyone can audit. <span class="rtag dr">direct</span> the foundation's own site — verified EIN, not metered. ★ Austin's foundation rebranded in 2024; its IRS registration (and every.org page) carries the legal name <b style="color:var(--muted)">Austin Cops for Charities</b> — same EIN, same charity, new jacket.</div>
+      <div class="donfine">You’ll complete your donation on the foundation’s <b>official secure site</b> — 100% goes to them, this site never touches a cent. Most are 501(c)(3) nonprofits; donations are typically tax-deductible.</div>
     </div>
   </div>
 </section>
@@ -662,7 +476,29 @@ footer a:hover{color:var(--pink2)}
   </div>
 </footer>
 
-<div class="toast" id="toast">💸 Finish on every.org — your refund hits the verified meter at the weekly refresh</div>
+<div class="modal" id="pmodal" role="dialog" aria-modal="true">
+  <div class="mbox">
+    <div id="mform">
+      <h3>Did you refund <span id="mcity" style="color:var(--pink2)">your PD</span>?</h3>
+      <p class="ms2">The foundation’s official donation page opened in a new tab. If you donated (or will), log it anonymously — it goes on the community scoreboard.</p>
+      <div class="amts">
+        <button class="amt" data-a="10">$10</button>
+        <button class="amt on" data-a="25">$25</button>
+        <button class="amt" data-a="50">$50</button>
+        <button class="amt" data-a="100">$100</button>
+      </div>
+      <div class="oth"><input id="modalamt" type="number" min="1" placeholder="Other amount ($)"></div>
+      <button class="btn btn-green donbtn" id="mlog">✔ Log My Refund</button>
+      <br><button class="mskip" id="mskip">Skip — I’m just browsing</button>
+    </div>
+    <div class="mthanks" id="mthanks">
+      <div class="big">On the record.</div>
+      <p class="ms2">Pledge logged. Your city moves up the board. <b style="color:#fff">Legendary.</b></p>
+      <button class="btn btn-pink" id="mclose">Close</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast">💚 Pledge logged — stay legendary</div>
 <script>
 const DATA=[
 {n:"New York",st:"NY",pop:8258035,pc:-9.3,metric:"Major crimes (7 felonies)",period:"Jan 1 – May 31",c26:14788,c25:16305,m26:276,m25:246,asOf:"May 31, 2026",src:"NYPD CompStat 2.0",surl:"https://compstat.nypdonline.org/",tier:"ytd",fnd:"New York City Police Foundation",furl:"https://www.nycpolicefoundation.org/donate/"},
@@ -693,13 +529,6 @@ const DATA=[
 ];
 const HUES=[["#a06bff","#6b2bd9"],["#ff2ec8","#b915ff"],["#4d9fff","#2456d9"],["#ffa53d","#e06a10"],["#41ff8b","#0d9f55"],["#2dd9c7","#0d8f85"]];
 const NS="gta6ct_cmq9szu",API="https://api.counterapi.dev/v1/"+NS+"/";
-/* ===== VERIFIED REFUND METER CONFIG ===== */
-const RAISED_UNITS="cents"; /* TOGGLE: set to "dollars" if the test donation reads 5 instead of 500 in /raised */
-const ROUTES={newyork:{ein:"13-2711338",route:"dr"},losangeles:{ein:"95-4700442",route:"ev"},chicago:{ein:"46-5275687",route:"ev"},houston:{ein:"20-1209272",route:"ev"},phoenix:{ein:"86-1014450",route:"ev"},philadelphia:{ein:"23-3009913",route:"ev"},sanantonio:{ein:"23-7292314",route:"ev"},sandiego:{ein:"33-0785173",route:"ev"},dallas:{ein:"41-2777292",route:"dr"},jacksonville:{ein:"23-7323006",route:"ev"},fortworth:{ein:"84-3318173",route:"ev"},austin:{ein:"26-1125268",route:"ev",legal:"Austin Cops for Charities"},sanjose:{ein:"20-4979633",route:"ev"},charlotte:{ein:"20-0422513",route:"ev"},columbus:{ein:"37-1588250",route:"ev"},indianapolis:{ein:"46-2417255",route:"ev"},sanfrancisco:{ein:"92-1286943",route:"ev"},seattle:{ein:"91-2171529",route:"ev"},denver:{ein:"36-4651863",route:"ev"},oklahomacity:{ein:"92-2192115",route:"ev"},nashville:{ein:"93-3172477",route:"ev"},washington:{ein:"41-2250114",route:"ev"},elpaso:{ein:"87-0729823",route:"ev"},lasvegas:{ein:"88-0429730",route:"ev"},boston:{ein:"04-3209395",route:"ev"}};
-/* machine-managed lines below — edited by skill scripts, do not hand-edit */
-const FRMAP={"chicago":{"np":"464aaf35-9dfb-4c5d-97e7-9918a64388b7","fr":"f3080feb-840e-4fee-8d6c-efc12770aca8","slug":"keep-crime-low-refund","eslug":"chicago-police-foundation"},"losangeles":{"np":"db560e7c-bdf6-494b-a12b-b2963a4073f0","fr":"a323c379-a269-49a2-bbdc-6bb79fbfb6e3","slug":"keep-crime-low-refund","eslug":"lapolicefoundation"},"houston":{"np":"f9ff1c17-ba77-4205-a9da-f3af26330fce","fr":"24ce7642-ebde-494f-97da-69fbd96a1cba","slug":"keep-crime-low-refund","eslug":"supporthpd"},"phoenix":{"np":"b97220e2-9fb4-43f1-9c81-f8590e9b6c28","fr":"79c7710e-3958-4d84-b037-a6ae56c9d839","slug":"keep-crime-low-refund","eslug":"phoenix-police-foundation-inc"},"philadelphia":{"np":"bcb2c8c0-9b7f-4757-ad58-5ad6673220ec","fr":"20708972-6ff0-4e73-b743-f7877cc92d20","slug":"keep-crime-low-refund","eslug":"philadelphia-police-foundation"},"sanantonio":{"np":"307ee9ec-95bc-4399-8ebb-0ebc84612297","fr":"8a3e3da6-227a-4f24-b85d-3c4a8bc2aefb","slug":"keep-crime-low-refund","eslug":"100clubsa"},"sandiego":{"np":"2ae340af-b0b0-4db6-8a6c-3f8ed472bd38","fr":"828f3e4b-e2af-4f26-92fd-128c1a3098c6","slug":"keep-crime-low-refund","eslug":"san-diego-police-foundation"},"austin":{"np":"e01f1d48-e40e-4945-87ba-b30ba3e6cd34","fr":"14600bdd-a01f-4235-89c7-faab406b5600","slug":"keep-crime-low-refund","eslug":"austin-cops-for-charities"},"jacksonville":{"np":"d6848968-cf91-4d9f-9625-d8ce85f15b14","fr":"4176bd8d-3b95-4e37-af7c-14a5d1db0e09","slug":"keep-crime-low-refund","eslug":"jax-pal"},"fortworth":{"np":"b7171b50-1a24-4a29-b231-61940a24a80d","fr":"a23ec53e-6dec-4b4f-b96e-9b159564b38b","slug":"keep-crime-low-refund","eslug":"fort-worth-police-foundation"},"sanjose":{"np":"ee1b2bcb-4d3b-40b6-92ed-2208f4764881","fr":"7f095051-40ce-4ce1-bca4-fb7e07e73f06","slug":"keep-crime-low-refund","eslug":"san-jose-police-foundation"},"charlotte":{"np":"7de5732d-1081-403c-abe1-4457e92117dc","fr":"02acc9c9-c903-4341-86b2-2954629719bb","slug":"keep-crime-low-refund","eslug":"charlotte-mecklenburg-police-foundation"},"columbus":{"np":"31843f65-8191-451c-b8b6-2160ba43b077","fr":"75730890-3c2e-423a-a249-b94490f1371d","slug":"keep-crime-low-refund","eslug":"columbus-police-foundation"},"indianapolis":{"np":"cb45c35b-a658-478c-a7e5-af42b7f8fcb9","fr":"f28475cc-c32a-4fec-9b35-0648bf72021a","slug":"keep-crime-low-refund","eslug":"the-central-indiana-police-foundation-inc"},"sanfrancisco":{"np":"d2a0b743-a5e9-44de-8f74-7c46d2a8dcad","fr":"83711891-f946-4aa9-a3b1-f9d6b8a5a02c","slug":"keep-crime-low-refund","eslug":"san-francisco-police-community-foundation"},"seattle":{"np":"93cb325d-e679-48e2-a0a7-3baf50665c8a","fr":"6e6140a7-9a1e-4632-a298-e9026253d259","slug":"keep-crime-low-refund","eslug":"seattlepoliicefoundation"},"denver":{"np":"fca9f6a7-d128-49b3-83ca-4fe452fade8d","fr":"1ab546ff-a968-4dc0-a59b-27dc2b7b6f6b","slug":"keep-crime-low-refund","eslug":"denver-police-foundation"},"oklahomacity":{"np":"8b3e77c4-a8eb-4f2d-8e0e-22c8074f8696","fr":"65b0f57c-599f-49f7-8684-e96879c15acd","slug":"keep-crime-low-refund","eslug":"oklahoma-city-police-foundation"},"nashville":{"np":"cc6b0d6c-642f-4683-9c9e-d2c265e83972","fr":"55644643-b0df-41a4-951e-d2fb8fcef09a","slug":"keep-crime-low-refund","eslug":"nashville-police-public-safety-alliance"},"washington":{"np":"864bd8f6-d96c-47c1-bf82-a39807982262","fr":"d95979c1-bbed-4f9e-ba8f-a903418d5d98","slug":"keep-crime-low-refund","eslug":"dcpolicefoundation"},"elpaso":{"np":"f8fd70cc-c685-4486-9897-193639e3832f","fr":"360d2149-5f9c-449b-9134-a8339680d5e3","slug":"keep-crime-low-refund","eslug":"elpasotexas"},"lasvegas":{"np":"9b5ad332-817b-4fd0-ad53-52ad4d2bc592","fr":"82855d7e-8bcc-408f-863a-11b01f1c3e8d","slug":"keep-crime-low-refund","eslug":"lvmpdfoundation"},"boston":{"np":"ba398b0f-d4fa-4def-8daf-3f26df651c75","fr":"56d74176-b567-40b5-bf76-93b8edfae59a","slug":"keep-crime-low-refund","eslug":"boston-police-foundation-inc"}};
-const REFUND={"asOf":"2026-06-12T04:54Z","next":"2026-06-19","total":1000,"supporters":1,"cities":{"chicago":{"raised":1000,"supporters":1},"losangeles":{"raised":0,"supporters":0},"houston":{"raised":0,"supporters":0},"phoenix":{"raised":0,"supporters":0},"philadelphia":{"raised":0,"supporters":0},"sanantonio":{"raised":0,"supporters":0},"sandiego":{"raised":0,"supporters":0},"austin":{"raised":0,"supporters":0},"jacksonville":{"raised":0,"supporters":0},"fortworth":{"raised":0,"supporters":0},"sanjose":{"raised":0,"supporters":0},"charlotte":{"raised":0,"supporters":0},"columbus":{"raised":0,"supporters":0},"indianapolis":{"raised":0,"supporters":0},"sanfrancisco":{"raised":0,"supporters":0},"seattle":{"raised":0,"supporters":0},"denver":{"raised":0,"supporters":0},"oklahomacity":{"raised":0,"supporters":0},"nashville":{"raised":0,"supporters":0},"washington":{"raised":0,"supporters":0},"elpaso":{"raised":0,"supporters":0},"lasvegas":{"raised":0,"supporters":0},"boston":{"raised":0,"supporters":0}}};
-/* ===== END VERIFIED METER CONFIG ===== */
 const fmt=n=>n==null?"—":n.toLocaleString("en-US");
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]/g,"");
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
@@ -715,7 +544,7 @@ if(c.c25!=null)h+=`<div class="brow"><span class="yl">${bl[0]}</span><div class=
 if(c.c26!=null)h+=`<div class="brow"><span class="yl">${bl[1]||"2026"}</span><div class="tr"><div class="fl b26" style="width:${(c.c26/mx*100).toFixed(1)}%;background:linear-gradient(90deg,${h1},${h1}88)"></div></div><span class="ct ct26">${fmt(c.c26)}</span></div>`;
 return`<div class="bars">${h}</div>`}
 function card(c){const i=DATA.indexOf(c),s=slug(c.n);
-const R=ROUTES[s]||{};const btn=`<button class="cbtn" data-city="${s}">♥ Refund ${esc(c.n)} PD${R.route==="dr"?" ↗":""}</button>`;
+const btn=c.furl?`<button class="cbtn" data-city="${s}">♥ Refund ${esc(c.n)} PD</button>`:`<a class="cbtn off" href="${c.alturl}" target="_blank" rel="noopener noreferrer" data-cityoff="${s}">⚠ Foundation offline — visit EPPD</a>`;
 return`<article class="card" id="card-${s}"><div class="sky">${sky(c,i)}</div><div class="cbody">
 <div class="crow1"><div><div class="cname">${esc(c.n)}</div><div class="cstate">${c.st} · pop ${c.pop>=1e6?(c.pop/1e6).toFixed(1)+"M":Math.round(c.pop/1e3)+"K"}</div></div>${pctHtml(c.pc)}</div>
 <div class="cmetric"><span class="metric-lbl">${esc(c.metric)}</span> · <span class="period-lbl">${esc(c.period)}</span>${c.bl||c.tier==="lim"?"":" · vs same period 2025"}</div>
@@ -727,50 +556,44 @@ ${c.note?`<div class="cnote">${esc(c.note)}</div>`:""}
 function render(){const m=document.getElementById("sortsel").value,a=[...DATA];
 if(m==="az")a.sort((x,y)=>x.n.localeCompare(y.n));else if(m==="pop")a.sort((x,y)=>y.pop-x.pop);else a.sort((x,y)=>(x.pc==null?99:x.pc)-(y.pc==null?99:y.pc));
 document.getElementById("grid").innerHTML=a.map(card).join("");
-document.querySelectorAll(".cbtn[data-city]").forEach(b=>b.addEventListener("click",()=>refund(b.dataset.city)));}
+document.querySelectorAll(".cbtn[data-city]").forEach(b=>b.addEventListener("click",()=>refund(b.dataset.city)));
+document.querySelectorAll("[data-cityoff]").forEach(b=>b.addEventListener("click",()=>{bump("clicks");bump("c_"+b.dataset.cityoff)}));}
 document.getElementById("sortsel").addEventListener("change",render);
 /* ticker */
-const TK=["Since the GTA 6 countdown started, crime is down across the country. Coincidence? Maybe. Legendary? Absolutely. 🎮","U.S. murder down ~20% in 2025 — the largest one-year drop on record 📉","2026 on pace for the lowest U.S. murder rate ever recorded (Jeff Asher) 🏆","Washington D.C.: murders down 45.8% YTD ✨","Boston: murders down 60% YTD 🍀","Houston: violent crime down 14.3% in Q1 🤠","Columbus: fewest homicides to start a year since 1985 🏟️","Indianapolis: violent crime down 29.6% YTD 🏁","Don’t be the statistic. Be the donor. ♥ Refund the Police","Carjackings down 61% since 2023 (Council on Criminal Justice) 🚗","The Refund Meter is now VERIFIED — real dollars, public receipts, zero vibes 💸"];
+const TK=["Since the GTA 6 countdown started, crime is down across the country. Coincidence? Maybe. Legendary? Absolutely. 🎮","U.S. murder down ~20% in 2025 — the largest one-year drop on record 📉","2026 on pace for the lowest U.S. murder rate ever recorded (Jeff Asher) 🏆","Washington D.C.: murders down 45.8% YTD ✨","Boston: murders down 60% YTD 🍀","Houston: violent crime down 14.3% in Q1 🤠","Columbus: fewest homicides to start a year since 1985 🏟️","Indianapolis: violent crime down 29.6% YTD 🏁","Don’t be the statistic. Be the donor. ♥ Refund the Police","Carjackings down 61% since 2023 (Council on Criminal Justice) 🚗"];
 document.getElementById("ticker").innerHTML=(TK.concat(TK)).map(t=>`<span class="tk"><span class="dot">◆</span>${t}</span>`).join("");
 /* countdown */
 const T0=new Date("2026-11-19T00:00:00-05:00");
 setInterval(()=>{let d=Math.max(0,T0-new Date());const dd=Math.floor(d/864e5);d-=dd*864e5;const hh=Math.floor(d/36e5);d-=hh*36e5;const mm=Math.floor(d/6e4),ss=Math.floor(d%6e4/1e3);
 cdd.textContent=dd;cdh.textContent=String(hh).padStart(2,"0");cdm.textContent=String(mm).padStart(2,"0");cds.textContent=String(ss).padStart(2,"0")},1000);
-/* counters — clicks kept as silent analytics; pledge buckets retired (frozen, never reset) */
+/* counters */
+async function read(n){try{const r=await fetch(API+n+"/");if(!r.ok)return 0;return(await r.json()).count||0}catch(e){return 0}}
 function bump(n){fetch(API+n+"/up").catch(()=>{})}
-/* verified meter — renders from baked REFUND (refreshed weekly by patrol via every.org public API) */
-const UDIV=()=>RAISED_UNITS==="cents"?100:1;
-const usd=v=>"$"+((v||0)/UDIV()).toLocaleString("en-US",{maximumFractionDigits:0});
-function paintMeter(){
-mtotal.textContent=usd(REFUND.total);msup.textContent=fmt(REFUND.supporters||0);
-if(REFUND.asOf)vstamp.textContent="AS OF "+REFUND.asOf.replace("T"," ").replace("Z"," UTC")+" · REFRESHED WEEKLY · NEXT: "+(REFUND.next||"+7d");
-const rows=Object.entries(REFUND.cities||{}).filter(([,v])=>(v.raised||0)>0).sort((a,b)=>(b[1].raised||0)-(a[1].raised||0)).slice(0,5);
-if(rows.length){const med=["🥇","🥈","🥉","4","5"];
-lboard.innerHTML=rows.map(([s,v],i)=>{const c=DATA.find(d=>slug(d.n)===s),F=FRMAP[s];
-const vf=F?`<a class="vfy" href="https://www.every.org/${F.eslug}/f/${F.slug}" target="_blank" rel="noopener noreferrer">verify ↗</a>`:"";
-return`<div class="lrow"><span class="rk">${med[i]}</span><span class="cn">${c?esc(c.n)+", "+c.st:s}${vf}</span><span class="cl">${usd(v.raised)}<span class="gifts">${fmt(v.supporters||0)} supporters</span></span></div>`}).join("")}
-buildLedger()}
-function buildLedger(){const tb=document.getElementById("rtable");if(!tb)return;
-tb.innerHTML=DATA.map(c=>{const s=slug(c.n),R=ROUTES[s]||{},F=FRMAP[s];
-const vurl=(R.route==="ev"&&F)?`https://www.every.org/${F.eslug}/f/${F.slug}`:(c.furl||c.alturl||"#");
-const fnd=esc((c.fnd||"").replace(" (site offline)",""))+(R.legal?` <span style="font-size:11px;color:var(--dim)">· legally ${esc(R.legal)}</span>`:"")+(s==="elpaso"?` <span style="font-size:11px;color:var(--teal)">⚡ donate-able again via every.org</span>`:"");
-return`<tr><td class="c">${esc(c.n)}</td><td class="hm">${fnd}</td><td class="e">${R.ein||"—"}</td><td><span class="rtag ${R.route||"dr"}">${R.route==="ev"?"every.org":"direct"}</span></td><td><a class="v" href="${vurl}" target="_blank" rel="noopener noreferrer">verify ↗</a></td></tr>`}).join("")}
-/* refund flow — verified: ev cities open their every.org fundraiser (amount prefilled), dr cities go direct */
-let pendAmt=25;
-function refund(s){const c=DATA.find(d=>slug(d.n)===s);if(!c)return;
-bump("clicks");bump("c_"+s);
-let a=pendAmt;const o=parseFloat(otheramt.value);if(o>0)a=o;
-const R=ROUTES[s]||{},F=FRMAP[s];let url=null;
-if(R.route==="ev"&&F)url=`https://www.every.org/${F.eslug}/f/${F.slug}?amount=${encodeURIComponent(a)}#donate`;
-else url=c.furl||c.alturl;
-if(!url)return;
-window.open(url,"_blank","noopener");
-toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),3400)}
+const BUCKETS=[10,25,50,100];let M={b10:0,b25:0,b50:0,b100:0,clicks:0},CITYCL={};
+function paintMeter(){const tot=10*M.b10+25*M.b25+50*M.b50+100*M.b100,pl=M.b10+M.b25+M.b50+M.b100;
+mtotal.textContent="$"+fmt(tot);mpledges.textContent=fmt(pl);mclicks.textContent=fmt(M.clicks);
+const rows=Object.entries(CITYCL).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]).slice(0,5);
+if(rows.length){const med=["🥇","🥈","🥉","4","5"];lboard.innerHTML=rows.map(([s,v],i)=>{const c=DATA.find(d=>slug(d.n)===s);return`<div class="lrow"><span class="rk">${med[i]}</span><span class="cn">${c?c.n+", "+c.st:s}</span><span class="cl">${fmt(v)} clicks</span></div>`}).join("")}}
+async function loadMeter(){const ks=["clicks","b10","b25","b50","b100"];const vs=await Promise.all(ks.map(read));ks.forEach((k,i)=>M[k]=vs[i]);
+const cs=await Promise.all(DATA.map(c=>read("c_"+slug(c.n))));DATA.forEach((c,i)=>CITYCL[slug(c.n)]=cs[i]);paintMeter()}
+/* refund flow */
+let pendCity=null,pendAmt=25;
+function refund(s){const c=DATA.find(d=>slug(d.n)===s);if(!c||!c.furl)return;
+M.clicks++;CITYCL[s]=(CITYCL[s]||0)+1;bump("clicks");bump("c_"+s);paintMeter();
+window.open(c.furl,"_blank","noopener");pendCity=s;mcity.textContent=c.n+" PD";
+mform.style.display="block";mthanks.style.display="none";pmodal.classList.add("open")}
 function wireAmts(box,inp){box.querySelectorAll(".amt").forEach(b=>b.addEventListener("click",()=>{box.querySelectorAll(".amt").forEach(x=>x.classList.remove("on"));b.classList.add("on");pendAmt=+b.dataset.a;if(inp)inp.value=""}))}
-wireAmts(document.getElementById("amts"),otheramt);
+wireAmts(document.querySelector("#pmodal .amts"),modalamt);wireAmts(document.getElementById("amts"),otheramt);
+function bucketOf(a){let best=10,bd=1e9;for(const b of BUCKETS){const d=Math.abs(a-b);if(d<bd){bd=d;best=b}}return best}
+mlog.addEventListener("click",()=>{let a=parseFloat(modalamt.value);if(!a||a<=0)a=pendAmt;const b=bucketOf(a);M["b"+b]++;bump("b"+b);paintMeter();
+mform.style.display="none";mthanks.style.display="block";
+toast.classList.add("show");setTimeout(()=>toast.classList.remove("show"),2600)});
+mskip.addEventListener("click",()=>pmodal.classList.remove("open"));
+mclose.addEventListener("click",()=>pmodal.classList.remove("open"));
+pmodal.addEventListener("click",e=>{if(e.target===pmodal)pmodal.classList.remove("open")});
 /* donate card */
 const cs2=document.getElementById("citysel");
-DATA.forEach(c=>{const s=slug(c.n),R=ROUTES[s]||{};const o=document.createElement("option");o.value=s;o.textContent=c.n+", "+c.st+" — "+(c.fnd||"").replace(" (site offline)","")+(R.route==="dr"?" (direct ↗)":"");cs2.appendChild(o)});
+DATA.forEach(c=>{const o=document.createElement("option");o.value=slug(c.n);o.textContent=c.n+", "+c.st+(c.furl?" — "+c.fnd:" (foundation site offline)");if(!c.furl)o.disabled=true;cs2.appendChild(o)});
 donbtn.addEventListener("click",()=>{const v=cs2.value;if(!v){cs2.style.borderColor="#ff2ec8";cs2.focus();return}
 const o=parseFloat(otheramt.value);if(o>0)pendAmt=o;refund(v)});
 /* live refresh */
@@ -784,7 +607,7 @@ c.c26=v26;c.c25=v25;c.pc=+(((v26-v25)/v25)*100).toFixed(1);c.period="Jan 1 – "
 const el=document.getElementById("card-"+s);if(el)el.outerHTML=card(DATA.find(d=>slug(d.n)===s));
 document.querySelectorAll(`#card-${s} .cbtn[data-city]`).forEach(b=>b.addEventListener("click",()=>refund(b.dataset.city)));
 }catch(e){}}}
-render();paintMeter();live();
+render();loadMeter();live();
 </script>
 </body>
 </html>
